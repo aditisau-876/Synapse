@@ -1,0 +1,123 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ============================= */
+/* SYNAPSE ACCENT THEMES          */
+/* ============================= */
+/* ============================= */
+/* VIOLET → INDIGO               */
+/* ============================= */
+
+:root,
+[data-accent="violet"] {
+  --synapse-accent-50: #f5f3ff;
+  --synapse-accent-100: #ede9fe;
+  --synapse-accent-200: #ddd6fe;
+  --synapse-accent-300: #d18ef8;
+  --synapse-accent-500: #b89aff;
+  --synapse-accent-600: #5c2bb3;
+  --synapse-accent-700: #5e60e7;
+  --synapse-accent-900: #221a92;
+}
+
+
+/* ============================= */
+/* RED → PINK                    */
+/* ============================= */
+
+[data-accent="pink"] {
+  --synapse-accent-50: #fff1f2;
+  --synapse-accent-100: #ffe4e6;
+  --synapse-accent-200: #fecdd3;
+  --synapse-accent-300: #e450e9;
+  --synapse-accent-500: #f43f5e;
+  --synapse-accent-600: #d61b43;
+  --synapse-accent-700: #f579b1;
+  --synapse-accent-900: #9d174d;
+}
+
+
+/* ============================= */
+/* BLUE → CYAN                   */
+/* ============================= */
+
+[data-accent="blue"] {
+  --synapse-accent-50: #eff6ff;
+  --synapse-accent-100: #dbeafe;
+  --synapse-accent-200: #bfdbfe;
+  --synapse-accent-300: #68fff7;
+  --synapse-accent-500: #3b82f6;
+  --synapse-accent-600: #2563eb;
+  --synapse-accent-700: #06b6d4;
+  --synapse-accent-900: #0e7490;
+}
+
+
+/* ============================= */
+/* GREEN → BLUE / TEAL           */
+/* ============================= */
+
+[data-accent="green"] {
+  --synapse-accent-50: #f0fdf4;
+  --synapse-accent-100: #dcfce7;
+  --synapse-accent-200: #46c3f5;
+  --synapse-accent-300: #46f311;
+  --synapse-accent-500: #1da04d;
+  --synapse-accent-600: #16a34a;
+  --synapse-accent-700: #14b8a6;
+  --synapse-accent-900: #0f766e;
+}
+
+
+/* ============================= */
+/* ORANGE → YELLOW               */
+/* ============================= */
+
+[data-accent="orange"] {
+  --synapse-accent-50: #fff7ed;
+  --synapse-accent-100: #ffedd5;
+  --synapse-accent-200: #e6e93f;
+  --synapse-accent-300: #e9c213;
+  --synapse-accent-500: #f97316;
+  --synapse-accent-600: #ea580c;
+  --synapse-accent-700: #eab308;
+  --synapse-accent-900: #a16207;
+}
+
+/* =========================================================
+   TAILWIND THEME VARIABLES
+   ========================================================= */
+
+@theme inline {
+  --color-[var(--synapse-accent-500)]: var(--synapse-accent);
+  --color-[var(--synapse-accent-500)]-foreground: white;
+
+  --color-accent: var(--synapse-accent);
+  --color-accent-foreground: white;
+}
+
+
+/* =========================================================
+   BASE
+   ========================================================= */
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html,
+  body,
+  #root {
+    width: 100%;
+    min-height: 100%;
+  }
+
+  body {
+    margin: 0;
+    font-family:
+      Inter,
+      system-ui,
+      sans-serif;
+  }
+}
