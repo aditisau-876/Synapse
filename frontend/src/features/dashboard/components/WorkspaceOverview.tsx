@@ -33,11 +33,11 @@ export default function WorkspaceOverview() {
     <div className="rounded-3xl
         border
         border-[var(--synapse-accent-200)]
-        bg-white
+        bg-card
         p-6
 
         dark:border-white/10
-        dark:bg-slate-900
+        dark:bg-card
         dark:shadow-xl">
 
       <h2 className="mb-6 text-xl font-bold">
@@ -62,7 +62,7 @@ export default function WorkspaceOverview() {
               p-3
 
               dark:border-white/5
-              dark:bg-white/5
+              dark:bg-card/5
             "
             >
               <div

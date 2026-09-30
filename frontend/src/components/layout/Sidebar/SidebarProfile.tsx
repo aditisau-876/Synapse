@@ -34,8 +34,8 @@ export default function SidebarProfile({
           justify-center
           rounded-full
           bg-gradient-to-br
-          from-indigo-500
-          to-cyan-500
+          from-[var(--synapse-accent-700)]
+          to-[var(--synapse-accent-secondary)]
           text-white
           "
         >

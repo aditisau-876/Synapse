@@ -24,7 +24,7 @@ export default function SendButton({
       justify-center
       rounded-xl
       bg-[var(--synapse-accent-500)]
-      text-[var(--synapse-accent-500)]-foreground
+      text-white
       shadow-lg
       transition
       disabled:cursor-not-allowed

@@ -116,7 +116,7 @@ export default function WelcomeBanner() {
             items-center
             justify-center
             rounded-full
-            bg-white/10
+            bg-card/10
             backdrop-blur-xl
             ring-1
             ring-white/10

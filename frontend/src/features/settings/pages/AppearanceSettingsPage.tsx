@@ -154,7 +154,7 @@ export default function AppearanceSettingsPage() {
 
                 {/* Selected check */}
                 {selected && (
-                  <div className="absolute right-4 top-4 flex h-6 w-6 items-center justify-center rounded-full bg-[var(--synapse-accent-500)] text-[var(--synapse-accent-500)]-foreground">
+                  <div className="absolute right-4 top-4 flex h-6 w-6 items-center justify-center rounded-full bg-[var(--synapse-accent-500)] text-white">
                     <Check size={14} strokeWidth={3} />
                   </div>
                 )}
@@ -172,7 +172,7 @@ export default function AppearanceSettingsPage() {
 
                     ${
                       selected
-                        ? "bg-[var(--synapse-accent-500)] text-[var(--synapse-accent-500)]-foreground"
+                        ? "bg-[var(--synapse-accent-500)] text-white"
                         : "bg-muted text-muted-foreground group-hover:bg-[var(--synapse-accent-500)]/10 group-hover:text-[var(--synapse-accent-500)]"
                     }
                   `}

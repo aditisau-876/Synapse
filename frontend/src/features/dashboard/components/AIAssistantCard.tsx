@@ -89,13 +89,13 @@ export default function AIAssistantCard() {
 
             rounded-xl
 
-            bg-white
+            bg-card
 
             px-5
             py-3
 
             font-semibold
-            text-slate-900
+            text-foreground
 
             shadow-lg
 

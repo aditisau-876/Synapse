@@ -10,7 +10,7 @@ export default function ProductivityChart() {
         bg-card
         p-6
         dark:border-white/10
-        dark:bg-slate-900
+        dark:bg-card
         dark:shadow-xl
       "
     >

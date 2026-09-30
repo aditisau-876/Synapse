@@ -2,12 +2,8 @@ import {
   LayoutDashboard,
   MessageSquare,
   Phone,
-  PenSquare,
   CheckSquare,
-  Calendar,
-  Folder,
   BrainCircuit,
-  Bell,
   Settings,
 } from "lucide-react";
 

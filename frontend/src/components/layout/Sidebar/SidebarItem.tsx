@@ -21,10 +21,10 @@ export default function SidebarItem({
         group
         flex
         items-center
-        gap-4
-        rounded-2xl
-        px-4
-        py-3
+        gap-3.5
+        rounded-xl
+        px-3.5
+        py-2.5
         transition-all
 
         ${
@@ -33,7 +33,7 @@ export default function SidebarItem({
 
         ${
           isActive
-            ? "bg-[var(--synapse-accent-500)] text-[var(--synapse-accent-500)]-foreground shadow-lg hover:bg-[var(--synapse-accent-500)]/90"
+            ? "bg-[var(--synapse-accent-500)]/12 text-[var(--synapse-accent-600)] shadow-sm dark:text-[var(--synapse-accent-300)]"
             : "hover:bg-muted"
         }
         `

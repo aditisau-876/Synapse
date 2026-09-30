@@ -23,7 +23,7 @@ export default function SettingsLayout() {
           mx-auto
           flex
           w-full
-          max-w-[1450px]
+          max-w-[1500px]
           px-6
           py-6
           lg:px-8
@@ -40,12 +40,12 @@ export default function SettingsLayout() {
           className="
             min-w-0
             flex-1
-            pl-8
-            lg:pl-10
-            xl:pl-12
+            pl-7
+            lg:pl-9
+            xl:pl-10
           "
         >
-          <div className="mx-auto w-full max-w-[950px]">
+          <div className="mx-auto w-full max-w-[1000px]">
             {activeSection === "Profile" && (
               <ProfileSettingsPage />
             )}

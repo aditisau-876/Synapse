@@ -1,4 +1,6 @@
 import { AlertTriangle, X } from "lucide-react";
+import { toast } from "sonner";
+import { revokeAllSessions } from "@/features/auth/api/auth-api";
 
 interface Props {
   open: boolean;
@@ -11,9 +13,8 @@ export default function SignOutAllDialog({
 }: Props) {
   if (!open) return null;
 
-  function handleSignOut() {
-    console.log("Sign out of all devices");
-    onClose();
+  async function handleSignOut() {
+    try { await revokeAllSessions(); toast.success("All other sessions have been revoked"); onClose(); } catch (error) { toast.error(error instanceof Error ? error.message : "Unable to revoke sessions"); }
   }
 
   return (
@@ -59,7 +60,7 @@ export default function SignOutAllDialog({
 
           <button
             type="button"
-            onClick={handleSignOut}
+            onClick={() => void handleSignOut()}
             className="rounded-xl bg-red-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-red-700"
           >
             Sign out all

@@ -58,7 +58,7 @@ export default function DashboardStats() {
               rounded-3xl
               border
               border-slate-200
-              bg-white
+              bg-card
               p-6
               shadow-sm
               transition-all
@@ -68,7 +68,7 @@ export default function DashboardStats() {
               hover:shadow-lg
 
               dark:border-white/10
-              dark:bg-slate-900
+              dark:bg-card
               dark:shadow-xl
             "
           >
@@ -78,7 +78,7 @@ export default function DashboardStats() {
                   {item.title}
                 </p>
 
-                <p className="mt-2 text-3xl font-black text-slate-900 dark:text-white">
+                <p className="mt-2 text-3xl font-black text-foreground dark:text-foreground">
                   {item.value}
                 </p>
               </div>

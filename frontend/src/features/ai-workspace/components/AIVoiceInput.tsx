@@ -1,6 +1,8 @@
 import { Mic, MicOff } from "lucide-react";
 import { useState } from "react";
 
+interface SpeechRecognitionResultEventLike { results: ArrayLike<ArrayLike<{ transcript: string }>>; }
+type SpeechRecognitionCtor = new () => { lang: string; interimResults: boolean; maxAlternatives: number; onstart: (() => void) | null; onend: (() => void) | null; onerror: (() => void) | null; onresult: ((event: SpeechRecognitionResultEventLike) => void) | null; start: () => void; stop: () => void; };
 interface Props {
   onTranscript?: (text: string) => void;
 }
@@ -11,16 +13,17 @@ export default function AIVoiceInput({
   const [isListening, setIsListening] = useState(false);
 
   const toggleListening = () => {
-    setIsListening((current) => !current);
-
-    /*
-     * Actual speech recognition will be connected later.
-     *
-     * When the backend / browser speech API is connected,
-     * the resulting transcript can be passed to:
-     *
-     * onTranscript?.(transcript);
-     */
+    const speechWindow = window as typeof window & { SpeechRecognition?: SpeechRecognitionCtor; webkitSpeechRecognition?: SpeechRecognitionCtor };
+    const Recognition = speechWindow.SpeechRecognition ?? speechWindow.webkitSpeechRecognition;
+    if (!Recognition) { setIsListening(false); return; }
+    if (isListening) { setIsListening(false); return; }
+    const recognition = new Recognition();
+    recognition.lang = "en-US"; recognition.interimResults = false; recognition.maxAlternatives = 1;
+    recognition.onstart = () => setIsListening(true);
+    recognition.onend = () => setIsListening(false);
+    recognition.onerror = () => setIsListening(false);
+    recognition.onresult = (event) => onTranscript?.(event.results[0][0].transcript);
+    recognition.start();
   };
 
   return (

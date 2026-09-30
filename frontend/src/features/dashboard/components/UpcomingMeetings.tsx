@@ -18,11 +18,11 @@ export default function UpcomingMeetings() {
         rounded-3xl
         border
         border-[var(--synapse-accent-100)]
-        bg-white
+        bg-card
         p-6
 
         dark:border-white/10
-        dark:bg-slate-900
+        dark:bg-card
         dark:shadow-xl
       "
     >
@@ -33,7 +33,7 @@ export default function UpcomingMeetings() {
           font-bold
           text-slate-800
 
-          dark:text-white
+          dark:text-foreground
         "
       >
         Upcoming Meetings
@@ -51,7 +51,7 @@ export default function UpcomingMeetings() {
               p-4
 
               dark:border-white/5
-              dark:bg-white/5
+              dark:bg-card/5
             "
           >
             <div
@@ -67,7 +67,7 @@ export default function UpcomingMeetings() {
                     font-semibold
                     text-slate-800
 
-                    dark:text-white
+                    dark:text-foreground
                   "
                 >
                   {meeting.title}

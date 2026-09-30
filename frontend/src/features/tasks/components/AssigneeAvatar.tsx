@@ -22,7 +22,7 @@ export default function AssigneeAvatar({
       bg-gradient-to-br
       from-[var(--synapse-accent-500)]
       via-indigo-600
-      to-cyan-500
+      to-[var(--synapse-accent-secondary)]
       font-semibold
       text-white
       shadow-md

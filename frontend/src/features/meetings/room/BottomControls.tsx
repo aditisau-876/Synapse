@@ -1,8 +1,6 @@
 import {
 Mic,
-MicOff,
 Video,
-VideoOff,
 PhoneOff,
 Monitor,
 MessageCircle,

@@ -10,11 +10,19 @@ interface TaskStore {
   addTask: (task: Task) => void;
   updateTask: (task: Task) => void;
   deleteTask: (id: string) => void;
+  setTasks: (tasks: Task[]) => void;
+  loaded: boolean;
+  setLoaded: (loaded: boolean) => void;
 }
 
 export const useTasksStore = create<TaskStore>((set) => ({
   tasks,
   selectedTask: undefined,
+  loaded: false,
+
+  setTasks: (tasks) => set({ tasks }),
+
+  setLoaded: (loaded) => set({ loaded }),
 
   setSelectedTask: (task) =>
     set({

@@ -19,7 +19,7 @@ export default function NotificationWidget() {
         bg-card
         p-6
         dark:border-white/10
-        dark:bg-slate-900
+        dark:bg-card
         dark:shadow-xl
       "
     >
@@ -56,7 +56,7 @@ export default function NotificationWidget() {
               hover:bg-muted/70
 
               dark:border-white/5
-              dark:bg-white/5
+              dark:bg-card/5
             "
           >
             {notification}

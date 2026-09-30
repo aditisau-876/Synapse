@@ -28,8 +28,8 @@ export default function Sidebar() {
 
       ${
         collapsed
-          ? "w-24"
-          : "w-72"
+          ? "w-[88px]"
+          : "w-[280px]"
       }
       `}
     >
@@ -60,7 +60,7 @@ export default function Sidebar() {
       <nav
         className="
         flex-1
-        space-y-2
+        space-y-1.5
         overflow-y-auto
         px-4
         "

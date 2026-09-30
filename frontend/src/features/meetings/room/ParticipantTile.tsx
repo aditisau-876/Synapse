@@ -1,7 +1,6 @@
 import {
   Mic,
   MicOff,
-  VideoOff,
 } from "lucide-react";
 
 interface Props{

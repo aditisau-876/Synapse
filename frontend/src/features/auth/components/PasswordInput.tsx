@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 
 interface Props {
   placeholder?: string;
+  value?: string;
 
   onChange?: (
     value:string
@@ -15,6 +16,7 @@ interface Props {
 
 export default function PasswordInput({
   placeholder="Password",
+  value,
   onChange
 }:Props){
 
@@ -42,6 +44,8 @@ show
 }
 
 placeholder={placeholder}
+
+value={value}
 
 onChange={(e)=>
 onChange?.(e.target.value)

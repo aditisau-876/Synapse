@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Eye, EyeOff, KeyRound, X } from "lucide-react";
+import { toast } from "sonner";
+import { changePassword } from "@/features/auth/api/auth-api";
 
 interface Props {
   open: boolean;
@@ -23,7 +25,7 @@ export default function ChangePasswordDialog({
   const passwordsMatch =
     newPassword === confirmPassword;
 
-  function handleSubmit() {
+  async function handleSubmit() {
     if (
       !currentPassword ||
       !newPassword ||
@@ -36,7 +38,13 @@ export default function ChangePasswordDialog({
       return;
     }
 
-    console.log("Password change UI submitted");
+    try {
+      await changePassword(currentPassword, newPassword);
+      toast.success("Password changed successfully");
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Unable to change password");
+      return;
+    }
 
     setCurrentPassword("");
     setNewPassword("");
@@ -133,7 +141,7 @@ export default function ChangePasswordDialog({
               !confirmPassword ||
               !passwordsMatch
             }
-            onClick={handleSubmit}
+            onClick={() => void handleSubmit()}
             className="rounded-xl bg-[var(--synapse-accent-500)] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[var(--synapse-accent-700)] disabled:cursor-not-allowed disabled:opacity-50"
           >
             Change Password

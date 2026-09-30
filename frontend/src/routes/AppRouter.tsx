@@ -13,6 +13,7 @@ import ResetPasswordPage from "@/features/auth/pages/ResetPasswordPage";
 import CompleteProfilePage from "@/features/onboarding/pages/CompleteProfilePage";
 import WelcomePage from "@/features/onboarding/pages/WelcomePage";
 import MeetingsPage from "@/features/meetings/pages/MeetingsPage";
+import MeetingRoomPage from "@/features/meetings/pages/MeetingRoomPage";
 import WhiteboardPage from "@/features/whiteboard/pages/WhiteboardPage";
 import TasksPage from "@/features/tasks/pages/TasksPage";
 import SettingsPage from "@/features/settings/pages/SettingsPage";
@@ -35,10 +36,18 @@ export default function AppRouter() {
         <Route path="/complete-profile" element={<CompleteProfilePage />}/>
         <Route path="/welcome" element={<WelcomePage />}/>
         {/* Application */}
-        <Route path="/app" element={ <AppLayout /> }>
+        <Route
+          path="/app"
+          element={
+            <ProtectedRoute>
+              <AppLayout />
+            </ProtectedRoute>
+          }
+        >
           <Route path="dashboard" element={<DashboardPage/>}/>
           <Route path="chats" element={<ChatPage />}/>
-          <Route path="meetings" element={<MeetingsPage />}/>
+          <Route path="meetings" element={<MeetingsPage />} />
+          <Route path="meetings/:code" element={<MeetingRoomPage />} />
           <Route path="whiteboard" element={<WhiteboardPage/>}/>
           <Route path="tasks" element={<TasksPage />}/>
           <Route path="ai-workspace" element={<AIWorkspacePage />}/>

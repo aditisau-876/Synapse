@@ -1,278 +1,151 @@
-import {
-Link
-} from "react-router-dom";
-
-import {
-useState
-} from "react";
-
-
-import AuthLayout
-from "@/features/auth/components/AuthLayout";
-
-
-import AuthCard
-from "@/features/auth/components/AuthCard";
-
-
-import PhoneInput
-from "@/features/auth/components/PhoneInput";
-
-
-import PasswordInput
-from "@/features/auth/components/PasswordInput";
-
-
-import PasswordStrength
-from "@/features/auth/components/PasswordStrength";
-
-
-import SocialLogin
-from "@/features/auth/components/SocialLogin";
-
-
-import {
-Input
-}
-from "@/components/ui/input";
-
-
-import {
-Button
-}
-from "@/components/ui/button";
-
-
-
-export default function SignupPage(){
-
-
-const [password,setPassword]=useState("");
-
-
-
-return (
-
-<AuthLayout>
-
-
-<AuthCard
-
-title="Create your account"
-
-description="Start using Synapse everywhere"
-
->
-
-
-<form
-className="
-space-y-5
-"
->
-
-
-
-<Input
-
-placeholder="Full name"
-
-className="
-h-12
-"
-
-/>
-
-
-
-<Input
-
-placeholder="Email address"
-
-type="email"
-
-className="
-h-12
-"
-
-/>
-
-
-
-<PhoneInput/>
-
-
-
-
-<div>
-
-
-<PasswordInput
-
-placeholder="Create password"
-
-onChange={setPassword}
-
-/>
-
-
-</div>
-
-
-
-
-
-<div>
-
-<Input
-
-placeholder="Confirm password"
-
-type="password"
-
-className="h-12"
-
-/>
-
-
-<PasswordStrength
-
-password={password}
-
-/>
-
-
-</div>
-
-
-
-
-
-<label
-
-className="
-flex
-items-start
-gap-3
-text-sm
-text-muted-foreground
-"
-
->
-
-
-<input
-type="checkbox"
-className="
-mt-1
-"
-/>
-
-
-<span>
-
-I agree to Synapse's
-
-<span
-className="
-text-[var(--synapse-accent-500)]
-mx-1
-"
->
-Terms
-</span>
-
-and
-
-<span
-className="
-text-[var(--synapse-accent-500)]
-ml-1
-"
->
-Privacy Policy
-</span>
-
-
-</span>
-
-
-</label>
-
-
-
-
-
-<Button
-
-className="
-h-12
-w-full
-"
-
->
-
-Create Account
-
-</Button>
-
-
-
-
-</form>
-
-
-
-<div className="mt-6">
-
-<SocialLogin/>
-
-</div>
-
-
-
-
-
-<p
-
-className="
-mt-6
-text-center
-text-sm
-text-muted-foreground
-"
-
->
-
-
-Already have an account?
-
-
-<Link
-
-to="/login"
-
-className="
-ml-2
-text-[var(--synapse-accent-500)]
-"
-
->
-
-Login
-
-</Link>
-
-
-</p>
-
-
-
-</AuthCard>
-
-
-</AuthLayout>
-
-);
-
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+
+import AuthLayout from "@/features/auth/components/AuthLayout";
+import AuthCard from "@/features/auth/components/AuthCard";
+import PasswordInput from "@/features/auth/components/PasswordInput";
+import PasswordStrength from "@/features/auth/components/PasswordStrength";
+import SocialLogin from "@/features/auth/components/SocialLogin";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { signup } from "@/features/auth/api/auth-api";
+
+export default function SignupPage() {
+  const navigate = useNavigate();
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const [loading, setLoading] = useState(false);
+
+  const update = (key: keyof typeof form, value: string) =>
+    setForm((current) => ({ ...current, [key]: value }));
+
+  const submit = async (event: React.FormEvent) => {
+    event.preventDefault();
+
+    if (form.password !== form.confirmPassword) {
+      toast.error("Passwords do not match");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const result = await signup({
+        name: form.name,
+        email: form.email,
+        phone: form.phone || undefined,
+        password: form.password,
+      });
+
+      navigate("/verify-email", {
+        state: {
+          challengeId: result.verification?.challenge_id ?? result.challenge_id,
+          devCode: result.verification?.dev_code ?? result.dev_code,
+        },
+      });
+    } catch (error) {
+      toast.error(
+        error instanceof Error ? error.message : "Unable to create account",
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <AuthLayout>
+      <AuthCard
+        title="Create your account"
+        description="Create a secure Synapse account."
+      >
+        <form className="space-y-5" onSubmit={submit}>
+          <Input
+            value={form.name}
+            onChange={(e) => update("name", e.target.value)}
+            placeholder="Full name"
+            className="h-12"
+            autoComplete="name"
+            required
+          />
+
+          <Input
+            value={form.email}
+            onChange={(e) => update("email", e.target.value)}
+            placeholder="Email address"
+            type="email"
+            className="h-12"
+            autoComplete="email"
+            required
+          />
+
+          <Input
+            value={form.phone}
+            onChange={(e) => update("phone", e.target.value)}
+            placeholder="Phone number (optional)"
+            type="tel"
+            className="h-12"
+            autoComplete="tel"
+          />
+
+          <PasswordInput
+            placeholder="Create password"
+            onChange={(value) => update("password", value)}
+          />
+
+          <div>
+            <Input
+              value={form.confirmPassword}
+              onChange={(e) => update("confirmPassword", e.target.value)}
+              placeholder="Confirm password"
+              type="password"
+              className="h-12"
+              autoComplete="new-password"
+              required
+            />
+
+            <PasswordStrength password={form.password} />
+          </div>
+
+          <label className="flex items-start gap-3 text-sm text-muted-foreground">
+            <input
+              type="checkbox"
+              required
+              className="mt-1 accent-[var(--synapse-accent-500)]"
+            />
+            <span>
+              I agree to Synapse's
+              <span className="mx-1 font-medium text-[var(--synapse-accent-600)] dark:text-[var(--synapse-accent-300)]">
+                Terms
+              </span>
+              and
+              <span className="ml-1 font-medium text-[var(--synapse-accent-600)] dark:text-[var(--synapse-accent-300)]">
+                Privacy Policy
+              </span>
+            </span>
+          </label>
+
+          <Button type="submit" disabled={loading} className="h-12 w-full">
+            {loading ? "Creating account..." : "Create Account"}
+          </Button>
+
+          <SocialLogin />
+
+          <p className="text-center text-sm text-muted-foreground">
+            Already have an account?
+            <Link
+              to="/login"
+              className="ml-2 font-medium text-[var(--synapse-accent-600)] dark:text-[var(--synapse-accent-300)]"
+            >
+              Login
+            </Link>
+          </p>
+        </form>
+      </AuthCard>
+    </AuthLayout>
+  );
 }

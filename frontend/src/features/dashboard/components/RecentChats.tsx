@@ -18,11 +18,11 @@ export default function RecentChats() {
         rounded-3xl
         border
         border-[var(--synapse-accent-100)]
-        bg-white
+        bg-card
         p-6
         
         dark:border-white/10
-        dark:bg-slate-900
+        dark:bg-card
         dark:shadow-xl
       "
     >
@@ -40,7 +40,7 @@ export default function RecentChats() {
             className="text-[var(--synapse-accent-500)] dark:text-[var(--synapse-accent-500)]"
           />
 
-          <h2 className="text-xl font-bold text-slate-800 dark:text-white">
+          <h2 className="text-xl font-bold text-slate-800 dark:text-foreground">
             Recent Chats
           </h2>
         </div>
@@ -80,7 +80,7 @@ export default function RecentChats() {
               hover:bg-[var(--synapse-accent-50)]
               hover:shadow-sm
 
-              dark:hover:bg-white/5
+              dark:hover:bg-card/5
             "
           >
             <div className="relative">
@@ -122,7 +122,7 @@ export default function RecentChats() {
             </div>
 
             <div className="flex-1 text-left">
-              <h3 className="font-semibold text-slate-800 dark:text-white">
+              <h3 className="font-semibold text-slate-800 dark:text-foreground">
                 {chat.name}
               </h3>
 

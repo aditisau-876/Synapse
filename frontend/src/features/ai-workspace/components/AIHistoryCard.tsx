@@ -15,31 +15,12 @@ interface Props {
   onDownload?: () => void;
 }
 
-function getIcon(type: AIHistoryItem["type"]) {
-  switch (type) {
-    case "Meeting Summary":
-      return Video;
-
-    case "Task Summary":
-      return NotebookPen;
-
-    case "Chat Summary":
-      return MessageSquare;
-
-    case "Document Summary":
-      return FileText;
-
-    default:
-      return FileText;
-  }
-}
-
 export default function AIHistoryCard({
   item,
   onOpen,
   onDownload,
 }: Props) {
-  const Icon = getIcon(item.type);
+  const icon = item.type === "Meeting Summary" ? <Video size={20} /> : item.type === "Task Summary" ? <NotebookPen size={20} /> : item.type === "Chat Summary" ? <MessageSquare size={20} /> : <FileText size={20} />;
 
   return (
     <div
@@ -71,7 +52,7 @@ export default function AIHistoryCard({
             text-[var(--synapse-accent-500)]
           "
         >
-          <Icon size={20} />
+          {icon}
         </div>
 
         {/* Content */}

@@ -51,7 +51,7 @@ export default function CalendarWidget() {
           rounded-2xl
           border
           border-white/10
-          bg-white/10
+          bg-card/10
           p-5
           backdrop-blur-xl
         "

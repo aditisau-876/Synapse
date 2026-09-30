@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { AtSign, CheckCircle2, CircleAlert } from "lucide-react";
 
 interface Props {
@@ -12,9 +12,6 @@ export default function UsernameInput({
 }: Props) {
   const [username, setUsername] = useState(value);
 
-  useEffect(() => {
-    setUsername(value);
-  }, [value]);
 
   const valid =
     username.length >= 4 &&

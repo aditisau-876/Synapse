@@ -21,11 +21,11 @@ export default function RecentFiles() {
         rounded-3xl
         border
         border-[var(--synapse-accent-100)]
-        bg-white
+        bg-card
         p-6
 
         dark:border-white/10
-        dark:bg-slate-900
+        dark:bg-card
         dark:shadow-xl
       "
     >
@@ -36,7 +36,7 @@ export default function RecentFiles() {
           font-bold
           text-slate-800
 
-          dark:text-white
+          dark:text-foreground
         "
       >
         Recent Files
@@ -62,7 +62,7 @@ export default function RecentFiles() {
                 p-3
 
                 dark:border-white/5
-                dark:bg-white/5
+                dark:bg-card/5
               "
             >
               <div
@@ -85,7 +85,7 @@ export default function RecentFiles() {
                     font-medium
                     text-slate-800
 
-                    dark:text-white
+                    dark:text-foreground
                   "
                 >
                   {file.name}

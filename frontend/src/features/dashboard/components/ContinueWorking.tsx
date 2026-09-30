@@ -43,15 +43,15 @@ export default function ContinueWorking() {
         rounded-3xl
         border
         border-[var(--synapse-accent-100)]
-        bg-white
+        bg-card
         p-6
 
         dark:border-white/10
-        dark:bg-slate-900
+        dark:bg-card
         dark:shadow-xl
       "
     >
-      <h2 className="mb-6 text-xl font-bold text-slate-900 dark:text-white">
+      <h2 className="mb-6 text-xl font-bold text-foreground dark:text-foreground">
         Continue Working
       </h2>
 
@@ -80,7 +80,7 @@ export default function ContinueWorking() {
                 hover:shadow-md
 
                 dark:border-white/10
-                dark:bg-white/5
+                dark:bg-card/5
                 dark:hover:border-[var(--synapse-accent-500)]
                 dark:hover:bg-[var(--synapse-accent-500)]/10
               "
@@ -108,7 +108,7 @@ export default function ContinueWorking() {
                 />
               </div>
 
-              <h3 className="font-semibold text-slate-800 dark:text-white">
+              <h3 className="font-semibold text-slate-800 dark:text-foreground">
                 {item.title}
               </h3>
             </button>

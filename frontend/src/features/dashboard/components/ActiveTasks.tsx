@@ -9,11 +9,11 @@ export default function ActiveTasks() {
         rounded-3xl
         border
         border-[var(--synapse-accent-100)]
-        bg-white
+        bg-card
         p-6
 
         dark:border-white/10
-        dark:bg-slate-900
+        dark:bg-card
         dark:shadow-xl
       "
     >
@@ -24,7 +24,7 @@ export default function ActiveTasks() {
           font-bold
           text-slate-800
 
-          dark:text-white
+          dark:text-foreground
         "
       >
         Active Tasks
@@ -63,7 +63,7 @@ export default function ActiveTasks() {
                 rounded-full
                 bg-[var(--synapse-accent-100)]
 
-                dark:bg-white/10
+                dark:bg-card/10
               "
             >
               <div

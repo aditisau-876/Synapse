@@ -1,6 +1,5 @@
 import {
   Download,
-  History,
   Share2,
   Sparkles,
   Undo2,

@@ -1,4 +1,10 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
+import { toast } from "sonner";
+import { useChat } from "../../hooks/useChat";
+import { useAuthStore } from "@/features/auth/store/auth-store";
+import { getPublicKey, sendEncryptedMessage } from "../../services/chat-api";
+import { encryptMessage, exportPublicKey, loadOrCreateIdentityKeyPair } from "../../services/e2ee";
+import { useChatStore } from "../../store/chat-store";
 
 import AttachmentMenu from "./AttachmentMenu";
 import AttachmentButton from "./AttachmentButton";
@@ -9,17 +15,32 @@ import VoiceRecorder from "./VoiceRecorder";
 export default function MessageComposer() {
   const [message, setMessage] = useState("");
 
-  const fileInput = useRef<HTMLInputElement | null>(null);
 
-  const [showAttachment, setShowAttachment] =
-    useState(false);
+  const [showAttachment, setShowAttachment] = useState(false);
+  const { conversation } = useChat();
+  const currentUser = useAuthStore((s) => s.user);
+  const addMessage = useChatStore((s) => s.addMessage);
 
-  function sendMessage() {
-    if (!message.trim()) return;
-
-    console.log(message);
-
-    setMessage("");
+  async function sendMessage() {
+    const plaintext = message.trim();
+    if (!plaintext || !currentUser || !conversation) return;
+    if (conversation.type !== "direct" || !conversation.participants[0]?.id) {
+      toast.error("E2EE sending currently requires a direct conversation with a registered participant.");
+      return;
+    }
+    const recipientId = conversation.participants[0].id;
+    try {
+      const pair = await loadOrCreateIdentityKeyPair();
+      const peerResponse = await getPublicKey(recipientId);
+      const peerKey = await crypto.subtle.importKey("raw", Uint8Array.from(atob(peerResponse.data.public_key), (c) => c.charCodeAt(0)), { name: "ECDH", namedCurve: "P-256" }, true, []);
+      const encrypted = await encryptMessage(pair.privateKey, peerKey, plaintext);
+      const senderPublicKey = await exportPublicKey(pair.publicKey);
+      const { data } = await sendEncryptedMessage({ conversation_id: conversation.id, recipient_id: recipientId, ...encrypted, sender_public_key: senderPublicKey });
+      addMessage(conversation.id, { id: data.id, conversationId: conversation.id, sender: { id: currentUser.id, name: currentUser.name, online: true }, text: plaintext, createdAt: data.created_at, status: "sent", own: true });
+      setMessage("");
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Unable to send encrypted message");
+    }
   }
 
   return (
@@ -132,7 +153,7 @@ focus-within:shadow-[var(--synapse-accent-500)]/5
         {message.trim() ? (
           <SendButton
             disabled={!message.trim()}
-            onClick={sendMessage}
+            onClick={() => void sendMessage()}
           />
         ) : (
           <VoiceRecorder

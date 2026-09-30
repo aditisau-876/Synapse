@@ -1,66 +1,22 @@
 import { useState } from "react";
-
 import type { AIMessage } from "../types";
+import { askAI } from "../services";
 
 export function useAIWorkspace() {
   const [messages, setMessages] = useState<AIMessage[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
   const sendMessage = async (content?: string) => {
     const messageText = (content ?? input).trim();
-
-    if (!messageText || isLoading) {
-      return;
-    }
-
-    const userMessage: AIMessage = {
-      id: crypto.randomUUID(),
-      role: "user",
-      content: messageText,
-      timestamp: new Date(),
-    };
-
-    setMessages((current) => [
-      ...current,
-      userMessage,
-    ]);
-
-    setInput("");
-    setIsLoading(true);
-
-    // Temporary frontend response.
-    // This will be replaced with the real AI API later.
-    await new Promise((resolve) =>
-      setTimeout(resolve, 900)
-    );
-
-    const assistantMessage: AIMessage = {
-      id: crypto.randomUUID(),
-      role: "assistant",
-      content:
-        "I'm ready to help you with your workspace. Once the AI backend is connected, I'll be able to give you real responses, summarize meetings, help with tasks, and work with your workspace context.",
-      timestamp: new Date(),
-    };
-
-    setMessages((current) => [
-      ...current,
-      assistantMessage,
-    ]);
-
-    setIsLoading(false);
+    if (!messageText || isLoading) return;
+    setMessages((current) => [...current, { id: crypto.randomUUID(), role: "user", content: messageText, timestamp: new Date() }]);
+    setInput(""); setIsLoading(true);
+    try {
+      const result = await askAI(messageText);
+      setMessages((current) => [...current, { id: result.id, role: "assistant", content: result.content, timestamp: new Date(result.created_at) }]);
+    } catch (error) {
+      setMessages((current) => [...current, { id: crypto.randomUUID(), role: "assistant", content: error instanceof Error ? `AI request failed: ${error.message}` : "AI request failed.", timestamp: new Date() }]);
+    } finally { setIsLoading(false); }
   };
-
-  const clearConversation = () => {
-    setMessages([]);
-  };
-
-  return {
-    messages,
-    input,
-    setInput,
-    isLoading,
-    sendMessage,
-    clearConversation,
-  };
+  return { messages, input, setInput, isLoading, sendMessage, clearConversation: () => setMessages([]) };
 }

@@ -11,7 +11,7 @@ export default function NotFoundPage() {
 
       <Link
         to="/"
-        className="rounded-lg bg-[var(--synapse-accent-500)] px-5 py-2 text-[var(--synapse-accent-500)]-foreground"
+        className="rounded-lg bg-[var(--synapse-accent-500)] px-5 py-2 text-white"
       >
         Go Home
       </Link>

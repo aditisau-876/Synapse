@@ -1,23 +1,22 @@
-import MeetingHeader from "../components/MeetingHeader";
-import MeetingFilters from "../components/MeetingFilters";
-import MeetingStats from "../components/MeetingStats";
-import MeetingQuickActions from "../components/MeetingQuickActions";
-import MeetingList from "../components/MeetingList";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+import { CalendarPlus, Link2, Video, X } from "lucide-react";
+import MeetingCard from "../components/MeetingCard";
+import { getMeetings, createMeeting, instantMeeting, type RemoteMeeting } from "../services";
 
 export default function MeetingsPage() {
-  return (
-    <div className="space-y-8 p-8">
-
-      <MeetingHeader />
-
-      <MeetingFilters />
-
-      <MeetingStats />
-
-      <MeetingQuickActions />
-
-      <MeetingList />
-
-    </div>
-  );
+  const navigate = useNavigate();
+  const [meetings, setMeetings] = useState<RemoteMeeting[]>([]);
+  const [scheduleOpen, setScheduleOpen] = useState(false);
+  const [joinOpen, setJoinOpen] = useState(false);
+  const [title, setTitle] = useState("");
+  const [start, setStart] = useState("");
+  const [joinCode, setJoinCode] = useState("");
+  const load = async () => { try { setMeetings(await getMeetings()); } catch { /* API may be unavailable before login/backend */ } };
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  useEffect(() => { void load(); }, []);
+  const startInstant = async () => { try { const m = await instantMeeting(); navigate(`/app/meetings/${m.code}`); } catch (e) { toast.error(e instanceof Error ? e.message : "Unable to start meeting"); } };
+  const schedule = async () => { if (!title.trim() || !start) return toast.error("Enter a title and start time"); try { const m = await createMeeting(title.trim(), new Date(start).toISOString()); setMeetings((x) => [...x, m]); setScheduleOpen(false); setTitle(""); setStart(""); toast.success("Meeting scheduled"); } catch (e) { toast.error(e instanceof Error ? e.message : "Unable to schedule meeting"); } };
+  return <div className="space-y-8 p-8">\n    <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center"><div><h1 className="text-3xl font-black">Meetings</h1><p className="text-muted-foreground">Schedule, join and manage meetings.</p></div><div className="flex gap-3"><button onClick={() => setJoinOpen(true)} className="rounded-xl border border-border px-5 py-3 hover:bg-muted">Join Meeting</button><button onClick={() => setScheduleOpen(true)} className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-primary to-[var(--synapse-accent-secondary)] px-5 py-3 text-white shadow-lg"><CalendarPlus size={18}/>New Meeting</button></div></div>\n    <div className="grid gap-6 md:grid-cols-3"><button onClick={() => void startInstant()} className="rounded-3xl bg-gradient-to-r from-primary to-[var(--synapse-accent-secondary)] p-8 text-left text-white shadow-xl"><Video className="mb-5"/><h3 className="text-xl font-bold">Instant Meeting</h3><p className="mt-2 text-white/80">Start a meeting now.</p></button><button onClick={() => setScheduleOpen(true)} className="rounded-3xl border border-border bg-background/70 p-8 text-left backdrop-blur-xl"><CalendarPlus className="mb-5 text-primary"/><h3 className="text-xl font-bold">Schedule</h3><p className="mt-2 text-muted-foreground">Plan your meetings.</p></button><button onClick={() => setJoinOpen(true)} className="rounded-3xl border border-border bg-background/70 p-8 text-left backdrop-blur-xl"><Link2 className="mb-5 text-cyan-500"/><h3 className="text-xl font-bold">Join via Code</h3><p className="mt-2 text-muted-foreground">Enter a meeting code.</p></button></div>\n    <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">{meetings.map((m) => <button key={m.id} onClick={() => navigate(`/app/meetings/${m.code}`)} className="text-left"><MeetingCard meeting={m}/></button>)}</div>\n    {scheduleOpen && <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"><div className="w-full max-w-md rounded-3xl border border-border bg-card p-6 shadow-2xl"><div className="flex justify-between"><h2 className="text-xl font-bold">Schedule Meeting</h2><button onClick={() => setScheduleOpen(false)}><X/></button></div><div className="mt-5 space-y-4"><input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Meeting title" className="w-full rounded-xl border border-border bg-background p-3"/><input type="datetime-local" value={start} onChange={(e) => setStart(e.target.value)} className="w-full rounded-xl border border-border bg-background p-3"/><button onClick={() => void schedule()} className="w-full rounded-xl bg-primary py-3 font-semibold text-white">Schedule</button></div></div></div>}\n    {joinOpen && <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"><div className="w-full max-w-md rounded-3xl border border-border bg-card p-6 shadow-2xl"><div className="flex justify-between"><h2 className="text-xl font-bold">Join Meeting</h2><button onClick={() => setJoinOpen(false)}><X/></button></div><div className="mt-5 space-y-4"><input value={joinCode} onChange={(e) => setJoinCode(e.target.value.toUpperCase())} placeholder="Meeting code" className="w-full rounded-xl border border-border bg-background p-3"/><button onClick={() => { if (joinCode.trim()) navigate(`/app/meetings/${joinCode.trim()}`); }} className="w-full rounded-xl bg-primary py-3 font-semibold text-white">Join</button></div></div></div>}\n  </div>;
 }

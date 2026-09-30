@@ -38,7 +38,7 @@ export default function SettingsToggle({
           w-4
           -translate-y-1/2
           rounded-full
-          bg-white
+          bg-card
           shadow-sm
           transition-transform
           ${
