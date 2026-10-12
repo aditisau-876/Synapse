@@ -2,7 +2,7 @@ import KanbanColumn from "./KanbanColumn";
 
 import { useKanban } from "../hooks/useKanban";
 
-export default function KanbanBoard() {
+export default function KanbanBoard({ search = "" }: { search?: string }) {
 
   const {
 
@@ -14,14 +14,15 @@ export default function KanbanBoard() {
 
     done,
 
-  } = useKanban();
+  } = useKanban(search);
 
   return (
 
     <div
       className="
       grid
-      gap-6
+      gap-4
+      md:grid-cols-2
       xl:grid-cols-4
       "
     >

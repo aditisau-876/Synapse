@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { getErrorMessage } from "@/lib/errors";
 
 import AuthLayout from "@/features/auth/components/AuthLayout";
 import AuthCard from "@/features/auth/components/AuthCard";
 import PasswordInput from "@/features/auth/components/PasswordInput";
 import PasswordStrength from "@/features/auth/components/PasswordStrength";
-import SocialLogin from "@/features/auth/components/SocialLogin";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { signup } from "@/features/auth/api/auth-api";
@@ -50,7 +50,7 @@ export default function SignupPage() {
       });
     } catch (error) {
       toast.error(
-        error instanceof Error ? error.message : "Unable to create account",
+        getErrorMessage(error, "Unable to create account"),
       );
     } finally {
       setLoading(false);
@@ -68,7 +68,7 @@ export default function SignupPage() {
             value={form.name}
             onChange={(e) => update("name", e.target.value)}
             placeholder="Full name"
-            className="h-12"
+            className="h-11"
             autoComplete="name"
             required
           />
@@ -78,7 +78,7 @@ export default function SignupPage() {
             onChange={(e) => update("email", e.target.value)}
             placeholder="Email address"
             type="email"
-            className="h-12"
+            className="h-11"
             autoComplete="email"
             required
           />
@@ -88,7 +88,7 @@ export default function SignupPage() {
             onChange={(e) => update("phone", e.target.value)}
             placeholder="Phone number (optional)"
             type="tel"
-            className="h-12"
+            className="h-11"
             autoComplete="tel"
           />
 
@@ -103,7 +103,7 @@ export default function SignupPage() {
               onChange={(e) => update("confirmPassword", e.target.value)}
               placeholder="Confirm password"
               type="password"
-              className="h-12"
+              className="h-11"
               autoComplete="new-password"
               required
             />
@@ -119,27 +119,26 @@ export default function SignupPage() {
             />
             <span>
               I agree to Synapse's
-              <span className="mx-1 font-medium text-[var(--synapse-accent-600)] dark:text-[var(--synapse-accent-300)]">
+              <span className="mx-1 font-medium text-brand dark:text-[color:var(--synapse-accent-300)]">
                 Terms
               </span>
               and
-              <span className="ml-1 font-medium text-[var(--synapse-accent-600)] dark:text-[var(--synapse-accent-300)]">
+              <span className="ml-1 font-medium text-brand dark:text-[color:var(--synapse-accent-300)]">
                 Privacy Policy
               </span>
             </span>
           </label>
 
-          <Button type="submit" disabled={loading} className="h-12 w-full">
+          <Button type="submit" disabled={loading} size="lg" className="w-full">
             {loading ? "Creating account..." : "Create Account"}
           </Button>
 
-          <SocialLogin />
 
           <p className="text-center text-sm text-muted-foreground">
             Already have an account?
             <Link
               to="/login"
-              className="ml-2 font-medium text-[var(--synapse-accent-600)] dark:text-[var(--synapse-accent-300)]"
+              className="ml-2 font-medium text-brand dark:text-[color:var(--synapse-accent-300)]"
             >
               Login
             </Link>

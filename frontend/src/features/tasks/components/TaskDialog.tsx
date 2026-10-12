@@ -122,16 +122,16 @@ export default function TaskDialog({
 
                 placeholder:text-muted-foreground
 
-                focus:border-[var(--synapse-accent-500)]
+                focus:border-[color:var(--synapse-accent-500)]
                 focus:ring-4
-                focus:ring-[var(--synapse-accent-500)]/10
+                focus:ring-[color:var(--synapse-accent-500)]/10
 
                 dark:border-border
                 dark:bg-background
                 dark:text-foreground
                 dark:placeholder:text-muted-foreground
 
-                dark:focus:border-[var(--synapse-accent-500)]
+                dark:focus:border-[color:var(--synapse-accent-500)]
               "
             />
           </div>
@@ -171,16 +171,16 @@ export default function TaskDialog({
 
                 placeholder:text-muted-foreground
 
-                focus:border-[var(--synapse-accent-500)]
+                focus:border-[color:var(--synapse-accent-500)]
                 focus:ring-4
-                focus:ring-[var(--synapse-accent-500)]/10
+                focus:ring-[color:var(--synapse-accent-500)]/10
 
                 dark:border-border
                 dark:bg-background
                 dark:text-foreground
                 dark:placeholder:text-muted-foreground
 
-                dark:focus:border-[var(--synapse-accent-500)]
+                dark:focus:border-[color:var(--synapse-accent-500)]
               "
             />
           </div>
@@ -200,19 +200,17 @@ export default function TaskDialog({
             className="
               w-full
               rounded-xl
-              bg-gradient-to-r
-              from-[var(--synapse-accent-500)]
-              to-[var(--synapse-accent-700)]
+              bg-[var(--synapse-accent-500)]
               px-4
               py-3
               font-semibold
               text-white
               shadow-lg
               transition-all
-              hover:-translate-y-0.5
+              
               hover:opacity-90
               hover:shadow-xl
-              active:translate-y-0
+              
             "
           >
             Create Task

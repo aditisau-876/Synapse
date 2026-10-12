@@ -21,8 +21,8 @@ export default function OTPInput({ value = "", onChange }: Props) {
           }}
           className="
             h-12 w-12 rounded-xl border border-border bg-background text-center text-xl font-bold
-            text-foreground outline-none transition focus:border-[var(--synapse-accent-500)]
-            focus:ring-4 focus:ring-[var(--synapse-accent-500)]/10
+            text-foreground outline-none transition focus:border-[color:var(--synapse-accent-500)]
+            focus:ring-4 focus:ring-[color:var(--synapse-accent-500)]/10
           "
         />
       ))}

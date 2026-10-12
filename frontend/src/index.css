@@ -1,129 +1,429 @@
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* ==========================================================================
+   Synapse design tokens
+   --------------------------------------------------------------------------
+   Idea: a synapse is a signal passing between two points. The brand is a calm
+   deep teal (communication) with one amber "spark" used sparingly for things
+   that want attention: unread counts, live state, the active node in the logo.
+
+   Everything in the app reads these variables, so a re-skin starts here.
+   ========================================================================== */
+
+/* ---- Accent presets (user-selectable in Settings → Appearance) ----------- */
+/* 500 = fills (white text on it passes AA), 600 = hover / text on light,
+   300 = text on dark, secondary = the "spark". */
 :root,
-[data-accent="violet"] {
-  --synapse-accent-50: #f5f3ff;
-  --synapse-accent-100: #ede9fe;
-  --synapse-accent-200: #ddd6fe;
-  --synapse-accent-300: #c4b5fd;
-  --synapse-accent-500: #7c3aed;
-  --synapse-accent-600: #6d28d9;
-  --synapse-accent-700: #6366f1;
-  --synapse-accent-900: #4338ca;
-  --synapse-accent-secondary: #06b6d4;
-}
-[data-accent="pink"] {
-  --synapse-accent-50: #fff1f2;
-  --synapse-accent-100: #ffe4e6;
-  --synapse-accent-200: #fecdd3;
-  --synapse-accent-300: #f9a8d4;
-  --synapse-accent-500: #db2777;
-  --synapse-accent-600: #be185d;
-  --synapse-accent-700: #f43f5e;
-  --synapse-accent-900: #9d174d;
-  --synapse-accent-secondary: #f973b7;
+[data-accent="teal"] {
+  --synapse-accent-50: #eaf7f4;
+  --synapse-accent-100: #cdeee7;
+  --synapse-accent-200: #9fddd0;
+  --synapse-accent-300: #66c5b3;
+  --synapse-accent-500: #0c8070;
+  --synapse-accent-600: #096a5d;
+  --synapse-accent-700: #075549;
+  --synapse-accent-900: #04382f;
+  --synapse-accent-secondary: #f2a20c;
 }
 [data-accent="blue"] {
-  --synapse-accent-50: #eff6ff;
-  --synapse-accent-100: #dbeafe;
-  --synapse-accent-200: #bfdbfe;
-  --synapse-accent-300: #7dd3fc;
-  --synapse-accent-500: #2563eb;
-  --synapse-accent-600: #1d4ed8;
-  --synapse-accent-700: #06b6d4;
-  --synapse-accent-900: #0e7490;
-  --synapse-accent-secondary: #22d3ee;
+  --synapse-accent-50: #eef3fd;
+  --synapse-accent-100: #d9e4fa;
+  --synapse-accent-200: #b5c9f4;
+  --synapse-accent-300: #86a6ec;
+  --synapse-accent-500: #2d5fd3;
+  --synapse-accent-600: #2349aa;
+  --synapse-accent-700: #1c3a88;
+  --synapse-accent-900: #112358;
+  --synapse-accent-secondary: #f2a20c;
+}
+[data-accent="violet"] {
+  --synapse-accent-50: #f1eefc;
+  --synapse-accent-100: #e1dbf8;
+  --synapse-accent-200: #c5b9f0;
+  --synapse-accent-300: #a394e4;
+  --synapse-accent-500: #6b4cd1;
+  --synapse-accent-600: #5538ad;
+  --synapse-accent-700: #442c8a;
+  --synapse-accent-900: #2a1a5a;
+  --synapse-accent-secondary: #f2a20c;
+}
+[data-accent="pink"] {
+  --synapse-accent-50: #fdeef3;
+  --synapse-accent-100: #fadae5;
+  --synapse-accent-200: #f4b5cb;
+  --synapse-accent-300: #ea86a9;
+  --synapse-accent-500: #c2255c;
+  --synapse-accent-600: #9e1b49;
+  --synapse-accent-700: #7c153a;
+  --synapse-accent-900: #4b0c22;
+  --synapse-accent-secondary: #f2a20c;
 }
 [data-accent="green"] {
-  --synapse-accent-50: #f0fdf4;
-  --synapse-accent-100: #dcfce7;
-  --synapse-accent-200: #bbf7d0;
-  --synapse-accent-300: #67e8f9;
-  --synapse-accent-500: #16a34a;
-  --synapse-accent-600: #15803d;
-  --synapse-accent-700: #14b8a6;
-  --synapse-accent-900: #0f766e;
-  --synapse-accent-secondary: #22c1b2;
+  --synapse-accent-50: #ecf8f0;
+  --synapse-accent-100: #d0eedb;
+  --synapse-accent-200: #a3ddb9;
+  --synapse-accent-300: #6cc48f;
+  --synapse-accent-500: #25804a;
+  --synapse-accent-600: #1c673b;
+  --synapse-accent-700: #16512f;
+  --synapse-accent-900: #0a301c;
+  --synapse-accent-secondary: #f2a20c;
 }
 [data-accent="orange"] {
-  --synapse-accent-50: #fff7ed;
-  --synapse-accent-100: #ffedd5;
-  --synapse-accent-200: #fed7aa;
-  --synapse-accent-300: #fde047;
-  --synapse-accent-500: #ea580c;
-  --synapse-accent-600: #c2410c;
-  --synapse-accent-700: #eab308;
-  --synapse-accent-900: #a16207;
-  --synapse-accent-secondary: #facc15;
+  --synapse-accent-50: #fef3e8;
+  --synapse-accent-100: #fce1c8;
+  --synapse-accent-200: #f8c395;
+  --synapse-accent-300: #f09b55;
+  --synapse-accent-500: #b8530b;
+  --synapse-accent-600: #964109;
+  --synapse-accent-700: #783307;
+  --synapse-accent-900: #481e03;
+  --synapse-accent-secondary: #1b8f7f;
 }
 
+/* ---- Semantic colours: light -------------------------------------------- */
+:root {
+  --background: #f3f5f4; /* app canvas */
+  --foreground: #14201e; /* ink */
+  --card: #ffffff; /* panels: sidebar, lists, headers */
+  --card-foreground: #14201e;
+  --popover: #ffffff;
+  --popover-foreground: #14201e;
+  --muted: #e9eeec; /* sunken areas, hover fills */
+  --muted-foreground: #586864;
+  --border: #d9e0dd;
+  --input: #cbd4d1;
+  --secondary: #e9eeec;
+  --secondary-foreground: #14201e;
+  --destructive: #d13438;
+  --primary: var(--synapse-accent-500);
+  --primary-foreground: #ffffff;
+  --ring: var(--synapse-accent-500);
+
+  /* Accent used as *text/icon colour*: darker on light, lighter on dark. */
+  --brand: var(--synapse-accent-600);
+  --accent-soft: color-mix(in srgb, var(--synapse-accent-500) 12%, transparent);
+
+  /* Backwards-compatible names some components still reference. */
+  --synapse-accent: var(--synapse-accent-500);
+  --synapse-accent-soft: color-mix(in srgb, var(--synapse-accent-500) 14%, transparent);
+
+  --radius: 10px;
+  --shadow-rgb: 12 32 28;
+
+  /* Meeting room is always dark, like a screening room. */
+  --room: #0f1514;
+  --room-tile: #1b2523;
+  --room-line: #2b3834;
+  --room-foreground: #e8eeec;
+}
+
+/* ---- Semantic colours: dark --------------------------------------------- */
+.dark {
+  --background: #0e1514;
+  --foreground: #e8eeec;
+  --card: #141d1c;
+  --card-foreground: #e8eeec;
+  --popover: #182322;
+  --popover-foreground: #e8eeec;
+  --muted: #1c2827;
+  --muted-foreground: #93a5a0;
+  --border: #26332f;
+  --input: #32423d;
+  --secondary: #1c2827;
+  --secondary-foreground: #e8eeec;
+  --destructive: #f0636a;
+  --brand: var(--synapse-accent-300);
+  --accent-soft: color-mix(in srgb, var(--synapse-accent-500) 22%, transparent);
+  --shadow-rgb: 0 0 0;
+}
+
+/* ---- Tailwind theme ------------------------------------------------------ */
 @theme inline {
+  --font-sans: "Figtree", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    "Noto Sans Bengali", "Noto Sans Devanagari", sans-serif;
+  --font-display: "Bricolage Grotesque", "Figtree", ui-sans-serif, system-ui,
+    sans-serif;
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-border: var(--border);
   --color-input: var(--input);
+  --color-ring: var(--ring);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
-  --color-accent: var(--synapse-accent-500);
-  --color-accent-foreground: #ffffff;
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: #ffffff;
+  /* shadcn "accent" = a subtle highlight (hovered menu rows etc.), not a fill. */
+  --color-accent: var(--accent-soft);
+  --color-accent-foreground: var(--foreground);
+
+  /* Named roles */
+  --color-brand: var(--brand);
+  --color-spark: var(--synapse-accent-secondary);
+  --color-live: #e5484d;
+  --color-presence: #2eaf6b;
+  --color-room: var(--room);
+  --color-room-tile: var(--room-tile);
+  --color-room-line: var(--room-line);
+  --color-room-foreground: var(--room-foreground);
+
+  /* Radius scale: tighter than the Tailwind default. rounded-3xl is now 14px,
+     so nothing in the app turns into a pill by accident. */
+  --radius-xs: 3px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 10px;
+  --radius-2xl: 12px;
+  --radius-3xl: 14px;
+  --radius-4xl: 18px;
+
+  /* Shadows: crisp and low. Floating layers also get a 1px hairline. */
+  --shadow-xs: 0 1px 0 rgb(var(--shadow-rgb) / 0.05);
+  --shadow-sm: 0 1px 2px rgb(var(--shadow-rgb) / 0.07);
+  --shadow-md: 0 2px 6px -1px rgb(var(--shadow-rgb) / 0.09);
+  --shadow-lg: 0 6px 16px -6px rgb(var(--shadow-rgb) / 0.16);
+  --shadow-xl: 0 14px 30px -12px rgb(var(--shadow-rgb) / 0.22),
+    0 0 0 1px var(--border);
+  --shadow-2xl: 0 24px 56px -20px rgb(var(--shadow-rgb) / 0.3),
+    0 0 0 1px var(--border);
+
+  /* Less "frosted glass". Kept only where content scrolls under a header. */
+  --blur-md: 6px;
+  --blur-lg: 8px;
+  --blur-xl: 10px;
+  --blur-2xl: 12px;
+
+  /* ---- Legacy palette aliases ------------------------------------------
+     Older components used Tailwind's indigo/violet/purple/fuchsia/cyan as
+     "brand" colours and slate as neutral. Mapping them onto the tokens above
+     re-skins those components without editing each file, and they now follow
+     the user's chosen accent. */
+  --color-indigo-50: var(--synapse-accent-50);
+  --color-indigo-100: var(--synapse-accent-100);
+  --color-indigo-200: var(--synapse-accent-200);
+  --color-indigo-300: var(--synapse-accent-300);
+  --color-indigo-400: var(--synapse-accent-300);
+  --color-indigo-500: var(--synapse-accent-500);
+  --color-indigo-600: var(--synapse-accent-600);
+  --color-indigo-700: var(--synapse-accent-700);
+  --color-indigo-800: var(--synapse-accent-700);
+  --color-indigo-900: var(--synapse-accent-900);
+  --color-indigo-950: var(--synapse-accent-900);
+  --color-violet-50: var(--synapse-accent-50);
+  --color-violet-100: var(--synapse-accent-100);
+  --color-violet-200: var(--synapse-accent-200);
+  --color-violet-300: var(--synapse-accent-300);
+  --color-violet-400: var(--synapse-accent-300);
+  --color-violet-500: var(--synapse-accent-500);
+  --color-violet-600: var(--synapse-accent-600);
+  --color-violet-700: var(--synapse-accent-700);
+  --color-violet-800: var(--synapse-accent-700);
+  --color-violet-900: var(--synapse-accent-900);
+  --color-purple-50: var(--synapse-accent-50);
+  --color-purple-100: var(--synapse-accent-100);
+  --color-purple-200: var(--synapse-accent-200);
+  --color-purple-300: var(--synapse-accent-300);
+  --color-purple-400: var(--synapse-accent-300);
+  --color-purple-500: var(--synapse-accent-500);
+  --color-purple-600: var(--synapse-accent-600);
+  --color-purple-700: var(--synapse-accent-700);
+  --color-purple-900: var(--synapse-accent-900);
+  --color-fuchsia-300: var(--synapse-accent-300);
+  --color-fuchsia-400: var(--synapse-accent-300);
+  --color-fuchsia-500: var(--synapse-accent-500);
+  --color-fuchsia-600: var(--synapse-accent-600);
+  --color-cyan-300: var(--synapse-accent-300);
+  --color-cyan-400: var(--synapse-accent-300);
+  --color-cyan-500: var(--synapse-accent-500);
+  --color-cyan-600: var(--synapse-accent-600);
+
+  --color-slate-50: #f3f5f4;
+  --color-slate-100: #e9eeec;
+  --color-slate-200: #d9e0dd;
+  --color-slate-300: #bfc9c5;
+  --color-slate-400: #93a5a0;
+  --color-slate-500: #6b7c77;
+  --color-slate-600: #586864;
+  --color-slate-700: #3f4e4a;
+  --color-slate-800: #26332f;
+  --color-slate-900: #17211f;
+  --color-slate-950: #0e1514;
 }
 
-:root {
-  --background: #f8fafc;
-  --foreground: #0f172a;
-  --card: rgba(255, 255, 255, 0.82);
-  --card-foreground: #0f172a;
-  --muted: #f1f5f9;
-  --muted-foreground: #64748b;
-  --border: #e2e8f0;
-  --input: #e2e8f0;
-  --primary: var(--synapse-accent-500);
-  --primary-foreground: #ffffff;
-  --secondary: #f1f5f9;
-  --secondary-foreground: #0f172a;
-}
-
-.dark {
-  --background: #09090b;
-  --foreground: #f8fafc;
-  --card: rgba(24, 24, 27, 0.78);
-  --card-foreground: #f8fafc;
-  --muted: #18181b;
-  --muted-foreground: #a1a1aa;
-  --border: #27272a;
-  --input: #27272a;
-  --primary: var(--synapse-accent-500);
-  --primary-foreground: #ffffff;
-  --secondary: #18181b;
-  --secondary-foreground: #f8fafc;
-}
-
+/* ---- Base ---------------------------------------------------------------- */
 @layer base {
-  * { box-sizing: border-box; }
-  html, body, #root { width: 100%; min-height: 100%; }
-  html { background: #f8fafc; }
+  /* Tailwind v4 defaults borders to currentColor, which made every bare
+     `border` render near-black. Restore a quiet default. */
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--border);
+  }
+
+  html {
+    color-scheme: light;
+    -webkit-text-size-adjust: 100%;
+    background: var(--background);
+  }
+  .dark {
+    color-scheme: dark;
+  }
+
   body {
     margin: 0;
-    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    background:
-      radial-gradient(circle at 15% 0%, color-mix(in srgb, var(--synapse-accent-500) 5%, transparent), transparent 30rem),
-      radial-gradient(circle at 90% 10%, color-mix(in srgb, var(--synapse-accent-secondary) 4%, transparent), transparent 28rem),
-      var(--background, #f8fafc);
-    color: var(--foreground, #0f172a);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.5;
+    background: var(--background);
+    color: var(--foreground);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
-  .dark body {
-    background:
-      radial-gradient(circle at 15% 0%, color-mix(in srgb, var(--synapse-accent-500) 10%, transparent), transparent 30rem),
-      radial-gradient(circle at 90% 10%, color-mix(in srgb, var(--synapse-accent-secondary) 7%, transparent), transparent 28rem),
-      #09090b;
-    color: #f8fafc;
+  #root {
+    min-height: 100dvh;
   }
-  button, input, textarea { font: inherit; }
+
+  h1,
+  h2 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+  h3 {
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
+  }
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]) {
+    cursor: pointer;
+  }
+
+  :where(:focus-visible) {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--synapse-accent-500) 28%, transparent);
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in srgb, var(--foreground) 24%, transparent)
+      transparent;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* ---- Utilities ----------------------------------------------------------- */
+/* `scrollbar-none` was used in the code but is not part of Tailwind v4. */
+@utility scrollbar-none {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility pb-safe {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* ---- Motion: only for things that respond to a person's action ----------- */
+@keyframes synapse-pop {
+  from {
+    opacity: 0;
+    transform: translateY(4px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes synapse-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes synapse-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes synapse-ping {
+  0% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+@utility animate-pop {
+  animation: synapse-pop 140ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+@utility animate-fade {
+  animation: synapse-fade 160ms ease-out both;
+}
+@utility animate-slide-in {
+  animation: synapse-slide-in 200ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+@utility animate-ping-soft {
+  animation: synapse-ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+/* Radix menus/popovers/tooltips open with a short pop. */
+[data-radix-popper-content-wrapper] > [data-state="open"] {
+  animation: synapse-pop 140ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@keyframes synapse-float {
+  0% { transform: translateY(0) scale(0.8); opacity: 0; }
+  12% { opacity: 1; }
+  100% { transform: translateY(-180px) scale(1.25); opacity: 0; }
+}
+@utility animate-float-up {
+  animation: synapse-float 2.8s ease-out forwards;
 }

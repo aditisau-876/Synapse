@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import { cn } from "@/lib/utils";
 
 interface Props {
   icon: React.ElementType;
@@ -7,47 +8,31 @@ interface Props {
   collapsed: boolean;
 }
 
-export default function SidebarItem({
-  icon: Icon,
-  label,
-  href,
-  collapsed,
-}: Props) {
+export default function SidebarItem({ icon: Icon, label, href, collapsed }: Props) {
   return (
     <NavLink
       to={href}
-      className={({ isActive }) =>
-        `
-        group
-        flex
-        items-center
-        gap-3.5
-        rounded-xl
-        px-3.5
-        py-2.5
-        transition-all
-
-        ${
-          collapsed ? "justify-center" : ""
-        }
-
-        ${
+      title={collapsed ? label : undefined}
+      aria-label={collapsed ? label : undefined}
+      className={({ isActive }: { isActive: boolean }) =>
+        cn(
+          "relative flex h-10 items-center gap-3 rounded-lg px-3 text-sm font-medium transition-colors",
+          collapsed && "justify-center px-0",
           isActive
-            ? "bg-[var(--synapse-accent-500)]/12 text-[var(--synapse-accent-600)] shadow-sm dark:text-[var(--synapse-accent-300)]"
-            : "hover:bg-muted"
-        }
-        `
+            ? "bg-accent text-brand"
+            : "text-muted-foreground hover:bg-muted hover:text-foreground",
+        )
       }
     >
-      <Icon
-        size={21}
-        className="shrink-0"
-      />
-
-      {!collapsed && (
-        <span className="font-medium">
-          {label}
-        </span>
+      {({ isActive }: { isActive: boolean }) => (
+        <>
+          {/* The active "thread": a short bar on the leading edge. */}
+          {isActive && (
+            <span className="absolute -left-3 top-2 h-6 w-[3px] rounded-r-full bg-[var(--synapse-accent-500)]" />
+          )}
+          <Icon size={19} strokeWidth={1.9} className="shrink-0" />
+          {!collapsed && <span className="truncate">{label}</span>}
+        </>
       )}
     </NavLink>
   );

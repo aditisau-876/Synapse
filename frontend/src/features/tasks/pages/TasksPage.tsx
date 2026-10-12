@@ -7,43 +7,34 @@ import KanbanBoard from "../components/KanbanBoard";
 import FloatingNewTask from "../components/FloatingNewTask";
 import TaskDialog from "../components/TaskDialog";
 import TaskDetailsDrawer from "../components/TaskDetailsDrawer";
+import { useTasksStore } from "../store/tasks-store";
 
 export default function TasksPage() {
   const [search, setSearch] = useState("");
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [drawerOpen, setDrawerOpen] = useState(false);
+  const selectedTask = useTasksStore((s) => s.selectedTask);
+  const setSelectedTask = useTasksStore((s) => s.setSelectedTask);
 
   return (
-    <div className="min-h-screen bg-background p-6 lg:p-8">
-      <div className="mx-auto max-w-[1700px] space-y-8">
-        <TasksHeader
-          onNewTask={() => setDialogOpen(true)}
-        />
+    <div className="p-4 sm:p-6 lg:p-8">
+      <div className="mx-auto max-w-[1700px] space-y-6">
+        <TasksHeader onNewTask={() => setDialogOpen(true)} />
 
-        <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
-          <SearchTasks
-            value={search}
-            onChange={setSearch}
-          />
-
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <SearchTasks value={search} onChange={setSearch} />
           <TaskFilterBar />
         </div>
 
-        <KanbanBoard />
+        <KanbanBoard search={search} />
       </div>
 
-      <FloatingNewTask
-        onClick={() => setDialogOpen(true)}
-      />
+      <FloatingNewTask onClick={() => setDialogOpen(true)} />
 
-      <TaskDialog
-        open={dialogOpen}
-        onClose={() => setDialogOpen(false)}
-      />
+      <TaskDialog open={dialogOpen} onClose={() => setDialogOpen(false)} />
 
       <TaskDetailsDrawer
-        open={drawerOpen}
-        onClose={() => setDrawerOpen(false)}
+        open={Boolean(selectedTask)}
+        onClose={() => setSelectedTask(undefined)}
       />
     </div>
   );

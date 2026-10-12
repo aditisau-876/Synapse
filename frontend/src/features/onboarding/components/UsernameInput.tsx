@@ -51,9 +51,9 @@ export default function UsernameInput({
           pr-11
           transition-all
           outline-none
-          focus:border-[var(--synapse-accent-500)]
+          focus:border-[color:var(--synapse-accent-500)]
           focus:ring-4
-          focus:ring-[var(--synapse-accent-500)]/10
+          focus:ring-[color:var(--synapse-accent-500)]/10
           "
         />
 

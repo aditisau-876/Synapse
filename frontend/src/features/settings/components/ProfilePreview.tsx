@@ -57,9 +57,7 @@ export default function ProfilePreview({
               items-center
               justify-center
               rounded-full
-              bg-gradient-to-br
-              from-[var(--synapse-accent-500)]
-              to-indigo-600
+              bg-[var(--synapse-accent-500)]
               text-xl
               font-bold
               text-white
@@ -95,7 +93,7 @@ export default function ProfilePreview({
           {name}
         </h2>
 
-        <p className="mt-0.5 text-sm text-[var(--synapse-accent-500)] dark:text-[var(--synapse-accent-500)]">
+        <p className="mt-0.5 text-sm text-brand dark:text-brand">
           {username}
         </p>
 

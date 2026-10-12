@@ -4,6 +4,9 @@ class Settings(BaseSettings):
     app_name: str = "Synapse API"
     environment: str = "development"
     database_url: str = "sqlite:///./synapse.db"
+    supabase_url: str = ""
+    supabase_service_role_key: str = ""
+    supabase_storage_bucket: str = "synapse-private"
     jwt_secret: str = "dev-only-change-this-to-a-64-character-random-secret-value-123456"
     jwt_algorithm: str = "HS256"
     access_token_minutes: int = 15

@@ -32,7 +32,7 @@ export default function ReactionsBar() {
           className="
           text-2xl
           transition
-          hover:scale-125
+          
           "
         >
           {reaction}

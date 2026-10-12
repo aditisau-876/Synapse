@@ -40,41 +40,12 @@ const accentThemes: {
   color: string;
   softColor: string;
 }[] = [
-  {
-    value: "violet",
-    label: "Violet",
-    description: "The classic Synapse theme.",
-    color: "#7c3aed",
-    softColor: "rgba(124, 58, 237, 0.12)",
-  },
-  {
-    value: "pink",
-    label: "Pink",
-    description: "A softer, vibrant look.",
-    color: "#db2777",
-    softColor: "rgba(219, 39, 119, 0.12)",
-  },
-  {
-    value: "blue",
-    label: "Blue",
-    description: "Cool and professional.",
-    color: "#2563eb",
-    softColor: "rgba(37, 99, 235, 0.12)",
-  },
-  {
-    value: "green",
-    label: "Green",
-    description: "Fresh and balanced.",
-    color: "#16a34a",
-    softColor: "rgba(22, 163, 74, 0.12)",
-  },
-  {
-    value: "orange",
-    label: "Orange",
-    description: "Warm and energetic.",
-    color: "#ea580c",
-    softColor: "rgba(234, 88, 12, 0.12)",
-  },
+  { value: "teal", label: "Teal", description: "The Synapse default.", color: "#0c8070", softColor: "rgba(12, 128, 112, 0.12)" },
+  { value: "blue", label: "Blue", description: "Cool and familiar.", color: "#2d5fd3", softColor: "rgba(45, 95, 211, 0.12)" },
+  { value: "violet", label: "Violet", description: "Quiet and focused.", color: "#6b4cd1", softColor: "rgba(107, 76, 209, 0.12)" },
+  { value: "pink", label: "Rose", description: "Warm and friendly.", color: "#c2255c", softColor: "rgba(194, 37, 92, 0.12)" },
+  { value: "green", label: "Green", description: "Fresh and balanced.", color: "#25804a", softColor: "rgba(37, 128, 74, 0.12)" },
+  { value: "orange", label: "Orange", description: "Warm and energetic.", color: "#b8530b", softColor: "rgba(184, 83, 11, 0.12)" },
 ];
 
 export default function AppearanceSettingsPage() {
@@ -87,7 +58,7 @@ export default function AppearanceSettingsPage() {
       {/* Header */}
       <div>
         <div className="flex items-center gap-3">
-          <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[var(--synapse-accent-500)]/10 text-[var(--synapse-accent-500)]">
+          <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[var(--synapse-accent-500)]/10 text-brand">
             <Palette size={22} />
           </div>
 
@@ -146,8 +117,8 @@ export default function AppearanceSettingsPage() {
 
                   ${
                     selected
-                      ? "border-[var(--synapse-accent-500)] bg-[var(--synapse-accent-500)]/10"
-                      : "border-border bg-background hover:border-[var(--synapse-accent-500)]/40 hover:bg-muted/50"
+                      ? "border-[color:var(--synapse-accent-500)] bg-[var(--synapse-accent-500)]/10"
+                      : "border-border bg-background hover:border-[color:var(--synapse-accent-500)]/40 hover:bg-muted/50"
                   }
                 `}
               >
@@ -173,7 +144,7 @@ export default function AppearanceSettingsPage() {
                     ${
                       selected
                         ? "bg-[var(--synapse-accent-500)] text-white"
-                        : "bg-muted text-muted-foreground group-hover:bg-[var(--synapse-accent-500)]/10 group-hover:text-[var(--synapse-accent-500)]"
+                        : "bg-muted text-muted-foreground group-hover:bg-[var(--synapse-accent-500)]/10 group-hover:text-brand"
                     }
                   `}
                 >

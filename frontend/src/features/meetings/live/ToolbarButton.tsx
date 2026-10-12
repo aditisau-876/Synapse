@@ -18,13 +18,6 @@ export default function ToolbarButton({
 }: Props) {
   return (
     <motion.button
-      whileHover={{
-        scale: 1.08,
-        y: -3,
-      }}
-      whileTap={{
-        scale: 0.95,
-      }}
       onClick={onClick}
       title={label}
       className={`
@@ -41,7 +34,7 @@ export default function ToolbarButton({
           danger
             ? "bg-red-600 text-white hover:bg-red-700"
             : active
-            ? "bg-gradient-to-br from-[var(--synapse-accent-500)] to-indigo-600 text-white shadow-xl"
+            ? "bg-[var(--synapse-accent-500)] text-white shadow-xl"
             : "bg-white/10 text-white backdrop-blur-xl hover:bg-white/20"
         }
       `}

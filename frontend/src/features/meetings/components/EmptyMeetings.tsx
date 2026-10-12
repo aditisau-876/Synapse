@@ -21,7 +21,7 @@ export default function EmptyMeetings() {
       <CalendarX2
         className="
         mb-6
-        text-[var(--synapse-accent-500)]
+        text-brand
         "
         size={64}
       />

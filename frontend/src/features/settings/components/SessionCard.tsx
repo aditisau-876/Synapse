@@ -10,7 +10,7 @@ export default function SessionCard() {
 
       <div className="flex items-center gap-4 rounded-xl border border-border bg-muted/40 p-4">
 
-        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--synapse-accent-500)]/10 text-[var(--synapse-accent-500)] dark:text-[var(--synapse-accent-500)]">
+        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--synapse-accent-500)]/10 text-brand dark:text-brand">
           <Monitor size={19} />
         </div>
 
@@ -30,7 +30,7 @@ export default function SessionCard() {
 
       <div className="flex items-center gap-4 rounded-xl border border-border bg-muted/40 p-4">
 
-        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--synapse-accent-500)]/10 text-[var(--synapse-accent-500)] dark:text-[var(--synapse-accent-500)]">
+        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--synapse-accent-500)]/10 text-brand dark:text-brand">
           <Smartphone size={19} />
         </div>
 

@@ -96,7 +96,7 @@ export default function ToolSettings({
 
                 ${
                   color === item
-                    ? "border-[var(--synapse-accent-500)] scale-110"
+                    ? "border-[color:var(--synapse-accent-500)] scale-110"
                     : "border-border"
                 }
                 `}

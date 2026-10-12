@@ -9,6 +9,8 @@ from .routes_chat import router as chat_router
 from .routes_tasks import router as tasks_router
 from .routes_meetings import router as meetings_router
 from .routes_ai import router as ai_router
+from .routes_users import router as users_router
+from .routes_files import router as files_router
 
 Base.metadata.create_all(bind=engine)
 
@@ -29,6 +31,8 @@ app.include_router(chat_router)
 app.include_router(tasks_router)
 app.include_router(meetings_router)
 app.include_router(ai_router)
+app.include_router(users_router)
+app.include_router(files_router)
 
 @app.get("/")
 def root():

@@ -8,6 +8,7 @@ import Labels from "./Labels";
 import ProgressRing from "./ProgressRing";
 
 import type { Task } from "../types";
+import { useTasksStore } from "../store/tasks-store";
 
 interface Props {
   task: Task;
@@ -18,22 +19,17 @@ export default function TaskCard({
   task,
   onClick,
 }: Props) {
+  const setSelectedTask = useTasksStore((s) => s.setSelectedTask);
   return (
     <motion.div
-      whileHover={{
-        y: -4,
-      }}
-      whileTap={{
-        scale: 0.98,
-      }}
-      onClick={onClick}
+      onClick={onClick ?? (() => setSelectedTask(task))}
       className="
         cursor-pointer
-        rounded-3xl
+        rounded-xl
         border
         border-border
         bg-background
-        p-5
+        p-4
         shadow-sm
         transition
         hover:border-primary/50

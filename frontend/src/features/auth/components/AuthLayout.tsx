@@ -1,154 +1,53 @@
 import type { ReactNode } from "react";
-import AnimatedBackground from "@/components/layout/AnimatedBackground";
+import { Link } from "react-router-dom";
 import Logo from "@/components/landing/Logo";
 
 interface Props {
   children: ReactNode;
 }
 
-
-export default function AuthLayout({
-  children,
-}: Props) {
-
+/** Brand panel on the left (desktop), the form on the right. No floating card. */
+export default function AuthLayout({ children }: Props) {
   return (
-    <main
-      className="
-      relative
-      flex
-      min-h-screen
-      items-center
-      justify-center
-      overflow-hidden
-      bg-background
-      px-6
-      "
-    >
+    <div className="grid min-h-dvh bg-background lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)]">
+      <aside className="relative hidden flex-col justify-between overflow-hidden bg-[var(--synapse-accent-900)] p-12 text-white lg:flex">
+        <Logo className="[&_span]:text-white" />
 
-      <AnimatedBackground />
-
-
-      <div
-        className="
-        grid
-        w-full
-        max-w-6xl
-        overflow-hidden
-        rounded-[2.5rem]
-        border
-        border-white/10
-        bg-background/60
-        shadow-2xl
-        backdrop-blur-xl
-        lg:grid-cols-2
-        "
-      >
-
-
-        {/* Left Branding */}
-
-        <div
-          className="
-          hidden
-          flex-col
-          justify-between
-          bg-gradient-to-br
-          from-indigo-500/20
-          via-cyan-500/10
-          to-transparent
-          p-12
-          lg:flex
-          "
+        {/* The signal motif: two nodes, one thread. */}
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 400 300"
+          className="pointer-events-none absolute right-0 top-1/2 w-[120%] -translate-y-1/2 translate-x-1/4 opacity-25"
+          fill="none"
         >
+          <path d="M20 240 C 140 240, 120 60, 250 60 S 360 140, 390 120" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeDasharray="3 9" />
+          <circle cx="20" cy="240" r="9" fill="#fff" />
+          <circle cx="250" cy="60" r="9" fill="var(--synapse-accent-secondary)" />
+        </svg>
 
+        <div className="relative max-w-sm">
+          <h2 className="text-4xl font-bold leading-tight">
+            Pick up the conversation where you left it.
+          </h2>
+          <p className="mt-4 text-white/70">
+            Messages, calls and the work that comes out of them, in one place.
+          </p>
+        </div>
+
+        <p className="relative text-sm text-white/55">Messages are end-to-end encrypted.</p>
+      </aside>
+
+      <main className="flex flex-col px-6 py-8 sm:px-12">
+        <div className="lg:hidden">
           <Logo />
-
-
-          <div>
-
-            <h1
-              className="
-              text-5xl
-              font-black
-              leading-tight
-              "
-            >
-              Connect.
-              <br/>
-              Collaborate.
-              <br/>
-              Create.
-            </h1>
-
-
-            <p
-              className="
-              mt-6
-              max-w-md
-              text-muted-foreground
-              "
-            >
-              Synapse brings messaging, meetings and
-              collaboration into one powerful platform.
-            </p>
-
-
-            <div className="mt-10 space-y-4">
-
-              {[
-                "Real-time messaging",
-                "HD video meetings",
-                "AI-powered collaboration",
-              ].map((item)=>(
-
-                <div
-                  key={item}
-                  className="
-                  rounded-xl
-                  border
-                  border-white/10
-                  bg-background/40
-                  px-4
-                  py-3
-                  text-sm
-                  "
-                >
-                  ✓ {item}
-                </div>
-
-              ))}
-
-
-            </div>
-
-
-          </div>
-
-
         </div>
-
-
-
-        {/* Form */}
-
-        <div
-          className="
-          flex
-          items-center
-          justify-center
-          p-8
-          lg:p-12
-          "
-        >
-
-          {children}
-
+        <div className="flex flex-1 items-center justify-center py-10">
+          <div className="w-full max-w-sm">{children}</div>
         </div>
-
-
-      </div>
-
-
-    </main>
+        <p className="text-center text-xs text-muted-foreground">
+          <Link to="/" className="hover:text-foreground">Back to synapse home</Link>
+        </p>
+      </main>
+    </div>
   );
 }

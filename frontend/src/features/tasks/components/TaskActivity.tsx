@@ -55,7 +55,7 @@ p-3
 
 <Clock3
 size={16}
-className="text-[var(--synapse-accent-500)]"
+className="text-brand"
 />
 
 <div>

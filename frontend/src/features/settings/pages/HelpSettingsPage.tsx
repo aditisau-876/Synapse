@@ -61,7 +61,7 @@ export default function HelpSettingsPage() {
                 hover:bg-muted/50
               "
             >
-              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[var(--synapse-accent-500)]/10 text-[var(--synapse-accent-500)]">
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[var(--synapse-accent-500)]/10 text-brand">
                 <Icon size={21} />
               </div>
 

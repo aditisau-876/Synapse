@@ -12,13 +12,6 @@ export default function AIAssistantButton({
 }: Props) {
   return (
     <motion.button
-      whileHover={{
-        scale: 1.08,
-        y: -2,
-      }}
-      whileTap={{
-        scale: 0.96,
-      }}
       onClick={onClick}
       className={`
         flex
@@ -32,7 +25,7 @@ export default function AIAssistantButton({
 
         ${
           active
-            ? "bg-gradient-to-br from-[var(--synapse-accent-500)] to-indigo-600 text-white shadow-xl"
+            ? "bg-[var(--synapse-accent-500)] text-white shadow-xl"
             : "bg-white/10 text-white hover:bg-[var(--synapse-accent-500)] backdrop-blur-xl"
         }
       `}

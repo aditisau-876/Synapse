@@ -27,9 +27,7 @@ export default function ScreenShareView() {
           left-6
           top-6
           rounded-full
-          bg-gradient-to-r
-          from-[var(--synapse-accent-500)]
-          to-indigo-600
+          bg-[var(--synapse-accent-500)]
           px-5
           py-2
           text-sm

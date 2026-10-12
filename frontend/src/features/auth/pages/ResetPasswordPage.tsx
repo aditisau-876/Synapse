@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { getErrorMessage } from "@/lib/errors";
 import AuthLayout from "@/features/auth/components/AuthLayout";
 import AuthCard from "@/features/auth/components/AuthCard";
 import PasswordInput from "@/features/auth/components/PasswordInput";
@@ -22,8 +23,8 @@ export default function ResetPasswordPage() {
     if (password !== confirm) return toast.error("Passwords do not match");
     setLoading(true);
     try { await resetPassword(state.challengeId, code, password); toast.success("Password reset successfully"); navigate("/login", { replace: true }); }
-    catch (error) { toast.error(error instanceof Error ? error.message : "Unable to reset password"); }
+    catch (error) { toast.error(getErrorMessage(error, "Unable to reset password")); }
     finally { setLoading(false); }
   };
-  return <AuthLayout><AuthCard title="Create New Password" description="Enter the verification code and choose a new password."><div className="space-y-5"><OTPInput value={code} onChange={setCode}/><PasswordInput value={password} onChange={setPassword} placeholder="New password"/><PasswordInput value={confirm} onChange={setConfirm} placeholder="Confirm password"/><Button className="h-12 w-full" disabled={loading} onClick={submit}>{loading ? "Resetting..." : "Reset Password"}</Button></div></AuthCard></AuthLayout>;
+  return <AuthLayout><AuthCard title="Create New Password" description="Enter the verification code and choose a new password."><div className="space-y-5"><OTPInput value={code} onChange={setCode}/><PasswordInput value={password} onChange={setPassword} placeholder="New password"/><PasswordInput value={confirm} onChange={setConfirm} placeholder="Confirm password"/><Button size="lg" className="w-full" disabled={loading} onClick={submit}>{loading ? "Resetting..." : "Reset Password"}</Button></div></AuthCard></AuthLayout>;
 }

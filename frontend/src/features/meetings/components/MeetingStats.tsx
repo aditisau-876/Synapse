@@ -63,11 +63,11 @@ export default function MeetingStats() {
             <Icon
               className="
               mb-5
-              text-[var(--synapse-accent-500)]
+              text-brand
               "
             />
 
-            <h2 className="text-4xl font-black">
+            <h2 className="text-4xl font-bold">
               {stat.value}
             </h2>
 

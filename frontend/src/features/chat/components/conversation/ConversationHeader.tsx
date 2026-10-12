@@ -1,67 +1,17 @@
-import {
-  Plus,
-  MessageCircleMore,
-} from "lucide-react";
+import { SquarePen } from "lucide-react";
 
-export default function ConversationHeader() {
+export default function ConversationHeader({ onNewChat }: { onNewChat: () => void }) {
   return (
-    <div
-className="
-flex
-items-center
-justify-between
-
-border-b
-border-border
-
-px-5
-py-5
-"
->
-      <div className="flex items-center gap-3">
-        <div
-          className="
-          flex
-          h-11
-          w-11
-          items-center
-          justify-center
-          rounded-2xl
-
-          bg-gradient-to-br from-[var(--synapse-accent-600)]
-to-[var(--synapse-accent-300)]
-
-          text-white
-          "
-        >
-          <MessageCircleMore size={20} />
-        </div>
-
-        <div>
-          <h2 className="text-lg font-bold">
-            Chats
-          </h2>
-
-          <p className="text-sm text-muted-foreground">
-            Your conversations
-          </p>
-        </div>
-      </div>
-
+    <div className="flex h-14 shrink-0 items-center justify-between px-4">
+      <h1 className="text-xl font-bold">Chats</h1>
       <button
-        className="
-        flex
-        h-10
-        w-10
-        items-center
-        justify-center
-        rounded-xl
-        transition
-
-        hover:bg-muted
-        "
+        type="button"
+        onClick={onNewChat}
+        aria-label="New chat"
+        title="New chat"
+        className="flex size-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
       >
-        <Plus size={20} />
+        <SquarePen size={19} />
       </button>
     </div>
   );

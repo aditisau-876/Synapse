@@ -4,6 +4,7 @@ import Checklist from "./Checklist";
 import CommentsPanel from "./CommentsPanel";
 import AttachmentsPanel from "./AttachmentsPanel";
 import TaskActivity from "./TaskActivity";
+import { useTasksStore } from "../store/tasks-store";
 
 interface Props {
   open: boolean;
@@ -14,11 +15,12 @@ export default function TaskDetailsDrawer({
   open,
   onClose,
 }: Props) {
+  const task = useTasksStore((s) => s.selectedTask);
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm">
-      <div className="absolute right-0 top-0 h-full w-full max-w-xl border-l border-border bg-card shadow-2xl">
+    <div className="fixed inset-0 z-50 bg-black/40" onClick={onClose}>
+      <div className="absolute right-0 top-0 h-full w-full max-w-xl overflow-y-auto border-l border-border bg-card shadow-2xl" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center justify-between border-b border-border p-5">
           <div>
             <h2 className="text-xl font-bold text-foreground">
@@ -46,7 +48,19 @@ export default function TaskDetailsDrawer({
           </button>
         </div>
 
-        <div className="space-y-6 overflow-y-auto p-5">
+        <div className="space-y-6 p-5">
+          {task && (
+            <div>
+              <h3 className="text-lg font-semibold">{task.title}</h3>
+              {task.description && (
+                <p className="mt-1 text-sm text-muted-foreground">{task.description}</p>
+              )}
+              <p className="mt-2 text-xs text-muted-foreground">
+                {task.priority} priority{task.dueDate ? ` · Due ${task.dueDate}` : ""}
+                {task.assignee ? ` · ${task.assignee}` : ""}
+              </p>
+            </div>
+          )}
           <Checklist />
 
           <CommentsPanel />

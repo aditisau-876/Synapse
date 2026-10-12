@@ -1,167 +1,87 @@
-import { useState } from "react";
-import { toast } from "sonner";
-import { useChat } from "../../hooks/useChat";
-import { useAuthStore } from "@/features/auth/store/auth-store";
-import { getPublicKey, sendEncryptedMessage } from "../../services/chat-api";
-import { encryptMessage, exportPublicKey, loadOrCreateIdentityKeyPair } from "../../services/e2ee";
-import { useChatStore } from "../../store/chat-store";
+import { useEffect, useRef, useState } from "react";
+import { Lock } from "lucide-react";
 
-import AttachmentMenu from "./AttachmentMenu";
 import AttachmentButton from "./AttachmentButton";
 import EmojiButton from "./EmojiButton";
 import SendButton from "./SendButton";
 import VoiceRecorder from "./VoiceRecorder";
+import { useChat } from "../../hooks/useChat";
+import { useSendMessage } from "../../hooks/useSendMessage";
+import { useUserSettings } from "@/features/settings/hooks/useUserSettings";
 
+/** Also used inside the meeting room chat panel. */
 export default function MessageComposer() {
-  const [message, setMessage] = useState("");
+  const { conversation, source } = useChat();
+  const send = useSendMessage();
+  const { settings } = useUserSettings();
+  const [text, setText] = useState("");
+  const [sending, setSending] = useState(false);
+  const box = useRef<HTMLTextAreaElement>(null);
 
+  // Drafts are per open conversation.
+  useEffect(() => {
+    setText("");
+  }, [conversation?.id]);
 
-  const [showAttachment, setShowAttachment] = useState(false);
-  const { conversation } = useChat();
-  const currentUser = useAuthStore((s) => s.user);
-  const addMessage = useChatStore((s) => s.addMessage);
+  // Grow with the text, up to ~6 lines.
+  useEffect(() => {
+    const el = box.current;
+    if (!el) return;
+    el.style.height = "auto";
+    el.style.height = `${Math.min(el.scrollHeight, 144)}px`;
+  }, [text]);
 
-  async function sendMessage() {
-    const plaintext = message.trim();
-    if (!plaintext || !currentUser || !conversation) return;
-    if (conversation.type !== "direct" || !conversation.participants[0]?.id) {
-      toast.error("E2EE sending currently requires a direct conversation with a registered participant.");
-      return;
+  if (!conversation) return null;
+
+  const groupBlocked = conversation.type === "group" && source === "server";
+
+  const submit = async () => {
+    const value = text.trim();
+    if (!value || sending) return;
+    setSending(true);
+    setText("");
+    const ok = await send(conversation.id, value);
+    if (!ok) setText(value); // give the draft back so nothing is lost
+    setSending(false);
+    box.current?.focus();
+  };
+
+  const onKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key !== "Enter") return;
+    const withModifier = e.metaKey || e.ctrlKey;
+    if (settings.enterToSend ? !e.shiftKey : withModifier) {
+      e.preventDefault();
+      void submit();
     }
-    const recipientId = conversation.participants[0].id;
-    try {
-      const pair = await loadOrCreateIdentityKeyPair();
-      const peerResponse = await getPublicKey(recipientId);
-      const peerKey = await crypto.subtle.importKey("raw", Uint8Array.from(atob(peerResponse.data.public_key), (c) => c.charCodeAt(0)), { name: "ECDH", namedCurve: "P-256" }, true, []);
-      const encrypted = await encryptMessage(pair.privateKey, peerKey, plaintext);
-      const senderPublicKey = await exportPublicKey(pair.publicKey);
-      const { data } = await sendEncryptedMessage({ conversation_id: conversation.id, recipient_id: recipientId, ...encrypted, sender_public_key: senderPublicKey });
-      addMessage(conversation.id, { id: data.id, conversationId: conversation.id, sender: { id: currentUser.id, name: currentUser.name, online: true }, text: plaintext, createdAt: data.created_at, status: "sent", own: true });
-      setMessage("");
-    } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Unable to send encrypted message");
-    }
+  };
+
+  if (groupBlocked) {
+    return (
+      <div className="flex shrink-0 items-center justify-center gap-2 border-t border-border bg-card px-4 py-4 text-sm text-muted-foreground">
+        <Lock size={15} />
+        Group chats aren't end-to-end encrypted yet, so sending is limited to one-to-one chats.
+      </div>
+    );
   }
 
   return (
-    <div
-      className="
-        border-t
-        border-border/60
-
-        bg-background/80
-
-        p-5
-
-        backdrop-blur-xl
-      "
-    >
-      <div
-        className="
-          relative
-
-          flex
-          items-end
-          gap-2
-
-          rounded-3xl
-
-          border
-          border-border/70
-
-          bg-muted/30
-
-          p-2.5
-
-          shadow-sm
-
-          backdrop-blur-xl
-
-          transition-all
-          duration-200
-
-          focus-within:border-[var(--synapse-accent-500)]
-focus-within:bg-background
-focus-within:shadow-md
-focus-within:shadow-[var(--synapse-accent-500)]/5
-
-          dark:focus-within:border-[var(--synapse-accent-500)]/30
-          dark:focus-within:bg-muted/40
-        "
-      >
-        <AttachmentButton
-          onClick={() =>
-            setShowAttachment(true)
-          }
-        />
-
-        <AttachmentMenu
-          open={showAttachment}
-          onClose={() =>
-            setShowAttachment(false)
-          }
-        />
-
-        <textarea
-          rows={1}
-          value={message}
-          onChange={(event) =>
-            setMessage(event.target.value)
-          }
-          onKeyDown={(event) => {
-            if (
-              event.key === "Enter" &&
-              !event.shiftKey
-            ) {
-              event.preventDefault();
-              sendMessage();
-            }
-          }}
-          placeholder="Type your message..."
-          className="
-            max-h-40
-            min-h-[44px]
-
-            flex-1
-
-            resize-none
-
-            bg-transparent
-
-            px-1
-            py-2
-
-            text-sm
-
-            text-foreground
-
-            placeholder:text-muted-foreground
-
-            outline-none
-          "
-        />
-
-        <EmojiButton
-          onEmoji={(emoji) =>
-            setMessage(
-              (current) =>
-                current + emoji
-            )
-          }
-        />
-
-        {message.trim() ? (
-          <SendButton
-            disabled={!message.trim()}
-            onClick={() => void sendMessage()}
+    <div className="pb-safe shrink-0 border-t border-border bg-card px-2 py-2 sm:px-4">
+      <div className="mx-auto flex max-w-3xl items-end gap-1">
+        <AttachmentButton />
+        <div className="min-w-0 flex-1 rounded-xl border border-border bg-background px-3 focus-within:border-[color:var(--synapse-accent-500)] focus-within:ring-2 focus-within:ring-[color:var(--synapse-accent-500)]/25">
+          <textarea
+            ref={box}
+            rows={1}
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            onKeyDown={onKeyDown}
+            placeholder="Write a message"
+            aria-label="Message"
+            className="block max-h-36 min-h-10 w-full resize-none bg-transparent py-2.5 text-[15px] leading-5 outline-none placeholder:text-muted-foreground"
           />
-        ) : (
-          <VoiceRecorder
-            onClick={() =>
-              console.log("Voice Recorder")
-            }
-          />
-        )}
+        </div>
+        <EmojiButton onEmoji={(emoji) => setText((t) => t + emoji)} />
+        {text.trim() ? <SendButton disabled={sending} onClick={() => void submit()} /> : <VoiceRecorder />}
       </div>
     </div>
   );

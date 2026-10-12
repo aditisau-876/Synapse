@@ -101,14 +101,14 @@ export default function AISummaryViewer({
                 justify-center
                 rounded-2xl
                 bg-[var(--synapse-accent-500)]/10
-                text-[var(--synapse-accent-500)]
+                text-brand
               "
             >
               <FileText size={22} />
             </div>
 
             <div className="min-w-0">
-              <p className="text-xs font-semibold uppercase tracking-wider text-[var(--synapse-accent-500)]">
+              <p className="text-xs font-semibold text-brand">
                 {type}
               </p>
 
@@ -141,7 +141,7 @@ export default function AISummaryViewer({
             className="
               mt-0.5
               shrink-0
-              text-[var(--synapse-accent-500)]
+              text-brand
             "
           />
 

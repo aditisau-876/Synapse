@@ -328,7 +328,7 @@ export default function MiniMap() {
         {/* Viewport */}
 
         <div
-          className="absolute border-2 border-[var(--synapse-accent-500)] rounded-sm pointer-events-none"
+          className="absolute border-2 border-[color:var(--synapse-accent-500)] rounded-sm pointer-events-none"
           style={{
             left:
               (-viewport.x /

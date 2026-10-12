@@ -34,7 +34,7 @@ export default function SecuritySection() {
 
       {/* Feedback */}
       {message && (
-        <div className="mb-4 flex items-center gap-2 rounded-xl border border-[var(--synapse-accent-500)]/20 bg-[var(--synapse-accent-500)]/10 px-4 py-3 text-sm text-[var(--synapse-accent-500)] dark:text-[var(--synapse-accent-500)]">
+        <div className="mb-4 flex items-center gap-2 rounded-xl border border-[color:var(--synapse-accent-500)]/20 bg-[var(--synapse-accent-500)]/10 px-4 py-3 text-sm text-brand dark:text-brand">
           <CheckCircle2 size={17} />
           {message}
         </div>
@@ -157,7 +157,7 @@ function SecurityRow({
           ${
             danger
               ? "text-red-600 hover:bg-red-500/10 dark:text-red-400"
-              : "text-[var(--synapse-accent-500)] hover:bg-[var(--synapse-accent-500)]/10 dark:text-[var(--synapse-accent-500)]"
+              : "text-brand hover:bg-[var(--synapse-accent-500)]/10 dark:text-brand"
           }
         `}
       >

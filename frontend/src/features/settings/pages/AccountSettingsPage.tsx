@@ -75,8 +75,8 @@ export default function AccountSettingsPage() {
                 justify-center
                 rounded-xl
                 bg-[var(--synapse-accent-500)]/10
-                text-[var(--synapse-accent-500)]
-                dark:text-[var(--synapse-accent-500)]
+                text-brand
+                dark:text-brand
               "
             >
               <Mail size={20} />
@@ -147,8 +147,8 @@ export default function AccountSettingsPage() {
                 justify-center
                 rounded-xl
                 bg-[var(--synapse-accent-500)]/10
-                text-[var(--synapse-accent-500)]
-                dark:text-[var(--synapse-accent-500)]
+                text-brand
+                dark:text-brand
               "
             >
               <Phone size={20} />
@@ -248,8 +248,8 @@ export default function AccountSettingsPage() {
                 justify-center
                 rounded-xl
                 bg-[var(--synapse-accent-500)]/10
-                text-[var(--synapse-accent-500)]
-                dark:text-[var(--synapse-accent-500)]
+                text-brand
+                dark:text-brand
               "
             >
               <Lock size={20} />
@@ -391,8 +391,8 @@ export default function AccountSettingsPage() {
                 justify-center
                 rounded-xl
                 bg-[var(--synapse-accent-500)]/10
-                text-[var(--synapse-accent-500)]
-                dark:text-[var(--synapse-accent-500)]
+                text-brand
+                dark:text-brand
               "
             >
               <Monitor size={20} />

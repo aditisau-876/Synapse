@@ -1,63 +1,13 @@
 import type { Message } from "../types/chat";
 
-const alex = {
-  id: "2",
-  name: "Alex Johnson",
-  online: true,
-};
+const minutesAgo = (m: number) => new Date(Date.now() - m * 60_000).toISOString();
 
-const me = {
-  id: "1",
-  name: "Aditi Sau",
-  online: true,
-};
+const alex = { id: "demo-u2", name: "Alex Johnson", online: true };
+const me = { id: "me", name: "You", online: true };
 
 export const messages: Message[] = [
-  {
-    id: "1",
-
-    conversationId: "1",
-
-    sender: alex,
-
-    text: "Hey 👋",
-
-    createdAt: "09:10",
-
-    status: "read",
-
-    own: false,
-  },
-
-  {
-    id: "2",
-
-    conversationId: "1",
-
-    sender: me,
-
-    text: "Hello Alex!",
-
-    createdAt: "09:11",
-
-    status: "read",
-
-    own: true,
-  },
-
-  {
-    id: "3",
-
-    conversationId: "1",
-
-    sender: alex,
-
-    text: "Ready for today's meeting?",
-
-    createdAt: "09:12",
-
-    status: "delivered",
-
-    own: false,
-  },
+  { id: "m1", conversationId: "demo-1", sender: alex, text: "Morning! Did you see the new designs?", createdAt: minutesAgo(190), status: "read", own: false },
+  { id: "m2", conversationId: "demo-1", sender: me, text: "Yes, the onboarding flow looks much clearer.", createdAt: minutesAgo(185), status: "read", own: true },
+  { id: "m3", conversationId: "demo-1", sender: alex, text: "Ready for today's meeting?", createdAt: minutesAgo(12), status: "delivered", own: false },
+  { id: "m4", conversationId: "demo-1", sender: alex, text: "I can start the call whenever you are.", createdAt: minutesAgo(11), status: "delivered", own: false },
 ];

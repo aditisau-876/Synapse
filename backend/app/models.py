@@ -1,5 +1,5 @@
 from datetime import datetime, timezone
-from sqlalchemy import Boolean, DateTime, ForeignKey, Integer, String, Text, UniqueConstraint
+from sqlalchemy import Boolean, DateTime, ForeignKey, Integer, String, Text, UniqueConstraint, BigInteger
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from .db import Base
 
@@ -127,3 +127,14 @@ class AIRecord(Base):
     response: Mapped[str] = mapped_column(Text)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now, index=True)
     expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), index=True)
+
+class StoredFile(Base):
+    __tablename__ = "stored_files"
+    id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    owner_id: Mapped[str] = mapped_column(ForeignKey("users.id"),index=True)
+    conversation_id: Mapped[str | None] = mapped_column(ForeignKey("conversations.id"),nullable=True,index=True)
+    original_filename: Mapped[str] = mapped_column(String(255))
+    object_path: Mapped[str] = mapped_column(String(500),unique=True,index=True)
+    content_type: Mapped[str] = mapped_column(String(150),default="application/octet-stream")
+    size_bytes: Mapped[int] = mapped_column(BigInteger)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True),default=now,)

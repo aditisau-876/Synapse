@@ -1,13 +1,14 @@
 from datetime import datetime, timezone
+import json
 import secrets
-from fastapi import APIRouter, Depends, HTTPException, WebSocket, WebSocketDisconnect
+from fastapi import APIRouter, Depends, HTTPException, Query, WebSocket, WebSocketDisconnect
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 from .audit import append_audit
 from .db import get_db
 from .models import Meeting, User
 from .schemas import MeetingCreateIn
-from .security import get_current_user, new_id
+from .security import decode_access_token, get_current_user, new_id
 
 router = APIRouter(prefix="/meetings", tags=["Meetings"])
 
@@ -16,8 +17,13 @@ def list_meetings(current: User = Depends(get_current_user), db: Session = Depen
     rows = db.scalars(select(Meeting).where(Meeting.owner_id == current.id).order_by(Meeting.start_at.asc())).all()
     return [meeting_out(m) for m in rows]
 
+def _utc(dt: datetime) -> datetime:
+    # SQLite drops the timezone; everything we store is UTC.
+    return dt if dt.tzinfo else dt.replace(tzinfo=timezone.utc)
+
 def meeting_out(m: Meeting):
-    return {"id": m.id, "title": m.title, "host": m.host, "date": m.start_at.date().isoformat(), "time": m.start_at.strftime("%H:%M"), "participants": m.participant_count, "status": m.status, "code": m.code}
+    start = _utc(m.start_at)
+    return {"id": m.id, "title": m.title, "host": m.host, "date": start.date().isoformat(), "time": start.strftime("%H:%M"), "start_at": start.isoformat(), "participants": m.participant_count, "status": m.status, "code": m.code}
 
 @router.post("")
 def create_meeting(payload: MeetingCreateIn, current: User = Depends(get_current_user), db: Session = Depends(get_db)):
@@ -42,29 +48,75 @@ def get_meeting(code: str, current: User = Depends(get_current_user), db: Sessio
     if not m: raise HTTPException(404, "Meeting not found")
     return meeting_out(m)
 
+MAX_ROOM_SIZE = 12          # full-mesh WebRTC gets heavy beyond this
+MAX_MESSAGE_BYTES = 64 * 1024
+
+
 class RoomManager:
-    def __init__(self): self.rooms: dict[str, set[WebSocket]] = {}
-    async def connect(self, code: str, ws: WebSocket):
-        await ws.accept(); self.rooms.setdefault(code, set()).add(ws)
-    def disconnect(self, code: str, ws: WebSocket):
-        peers = self.rooms.get(code); 
+    def __init__(self):
+        self.rooms: dict[str, set[WebSocket]] = {}
+        self.client_ids: dict[WebSocket, str] = {}
+
+    def size(self, code: str) -> int:
+        return len(self.rooms.get(code, set()))
+
+    def add(self, code: str, ws: WebSocket):
+        self.rooms.setdefault(code, set()).add(ws)
+
+    def disconnect(self, code: str, ws: WebSocket) -> str | None:
+        peers = self.rooms.get(code)
         if peers is not None:
             peers.discard(ws)
-            if not peers: self.rooms.pop(code, None)
+            if not peers:
+                self.rooms.pop(code, None)
+        return self.client_ids.pop(ws, None)
+
     async def broadcast(self, code: str, message: str, sender: WebSocket):
         for peer in list(self.rooms.get(code, set())):
             if peer is not sender:
-                try: await peer.send_text(message)
-                except Exception: self.disconnect(code, peer)
+                try:
+                    await peer.send_text(message)
+                except Exception:
+                    self.disconnect(code, peer)
+
 
 manager = RoomManager()
 
+
 @router.websocket("/ws/{code}")
-async def meeting_signaling(ws: WebSocket, code: str):
-    await manager.connect(code.upper(), ws)
+async def meeting_signaling(ws: WebSocket, code: str, token: str = Query(default=""), db: Session = Depends(get_db)):
+    """Signaling relay. Requires ?token=<access token> and an existing meeting.
+
+    Close codes are sent after accept() so the browser can read them:
+    1008 = not allowed (bad token, unknown meeting, room full).
+    """
+    code = code.upper()
+    await ws.accept()
+    try:
+        user = db.get(User, decode_access_token(token))
+    except (HTTPException, ValueError):
+        user = None
+    meeting = db.scalar(select(Meeting).where(Meeting.code == code)) if user else None
+    if not user or not meeting or manager.size(code) >= MAX_ROOM_SIZE:
+        await ws.close(code=1008)
+        return
+
+    manager.add(code, ws)
     try:
         while True:
             message = await ws.receive_text()
-            await manager.broadcast(code.upper(), message, ws)
+            if len(message) > MAX_MESSAGE_BYTES:
+                continue
+            try:
+                data = json.loads(message)
+                if data.get("type") == "join" and isinstance(data.get("clientId"), str):
+                    manager.client_ids[ws] = data["clientId"]
+            except (ValueError, AttributeError):
+                continue
+            await manager.broadcast(code, message, ws)
     except WebSocketDisconnect:
-        manager.disconnect(code.upper(), ws)
+        pass
+    finally:
+        client_id = manager.disconnect(code, ws)
+        if client_id:  # tell everyone else, even if the tab was closed without a goodbye
+            await manager.broadcast(code, json.dumps({"type": "leave", "clientId": client_id}), ws)

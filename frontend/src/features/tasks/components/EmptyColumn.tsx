@@ -18,7 +18,7 @@ export default function EmptyColumn({
       rounded-2xl
       border
       border-dashed
-      border-white/10
+      border-border
       bg-white/5
       p-6
       text-center
@@ -26,7 +26,7 @@ export default function EmptyColumn({
     >
       <Inbox
         size={34}
-        className="mb-3 text-[var(--synapse-accent-500)]"
+        className="mb-3 text-brand"
       />
 
       <h3 className="font-semibold">

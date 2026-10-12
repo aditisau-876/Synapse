@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { getErrorMessage } from "@/lib/errors";
 import AuthLayout from "@/features/auth/components/AuthLayout";
 import AuthCard from "@/features/auth/components/AuthCard";
 import OTPInput from "@/features/auth/components/OTPInput";
@@ -22,7 +23,7 @@ export default function VerifyPhonePage() {
       setChallengeId(result.challenge_id);
       setCode(result.dev_code ?? "");
       toast.success(result.dev_code ? `Development OTP: ${result.dev_code}` : "Verification code sent");
-    } catch (error) { toast.error(error instanceof Error ? error.message : "Unable to send OTP"); }
+    } catch (error) { toast.error(getErrorMessage(error, "Unable to send OTP")); }
   };
 
   const submit = async () => {
@@ -33,15 +34,15 @@ export default function VerifyPhonePage() {
       updateUser({ phoneVerified: true, ...(result.user ?? {}) });
       toast.success("Phone verified");
       navigate("/app/settings", { replace: true });
-    } catch (error) { toast.error(error instanceof Error ? error.message : "Verification failed"); }
+    } catch (error) { toast.error(getErrorMessage(error, "Verification failed")); }
     finally { setLoading(false); }
   };
 
   return <AuthLayout><AuthCard title="Verify Phone Number" description="Confirm the phone number attached to your Synapse account.">
     <div className="space-y-6">
       <OTPInput value={code} onChange={setCode} />
-      <Button className="h-12 w-full" disabled={loading} onClick={submit}>{loading ? "Verifying..." : "Verify Phone"}</Button>
-      <p className="text-center text-sm text-muted-foreground">Didn't receive a code?<button type="button" onClick={request} className="ml-2 text-[var(--synapse-accent-500)]">Send again</button></p>
+      <Button size="lg" className="w-full" disabled={loading} onClick={submit}>{loading ? "Verifying..." : "Verify Phone"}</Button>
+      <p className="text-center text-sm text-muted-foreground">Didn't receive a code?<button type="button" onClick={request} className="ml-2 text-brand">Send again</button></p>
     </div>
   </AuthCard></AuthLayout>;
 }

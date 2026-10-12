@@ -138,17 +138,15 @@ export default function AIInput({
                 items-center
                 justify-center
                 rounded-xl
-                bg-gradient-to-r
-                from-[var(--synapse-accent-500)]
-                to-[var(--synapse-accent-900)]
+                bg-[var(--synapse-accent-500)]
                 text-white
                 shadow-sm
                 transition-all
-                hover:scale-105
+                
                 hover:shadow-md
                 disabled:cursor-not-allowed
                 disabled:opacity-40
-                disabled:hover:scale-100
+                disabled:
               "
             >
               <ArrowUp size={18} />

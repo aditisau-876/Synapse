@@ -1,145 +1,62 @@
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
+import { Menu, X } from "lucide-react";
 
 import Logo from "./Logo";
 import { Button } from "@/components/ui/button";
-import { useScroll } from "@/hooks/useScroll";
 
+const links = [
+  { label: "Features", href: "#features" },
+  { label: "Security", href: "#security" },
+];
 
 export default function Navbar() {
-
   const [open, setOpen] = useState(false);
 
-  const scrolled = useScroll();
-
-
   return (
-    <header className="fixed left-0 right-0 top-0 z-50 px-6 pt-5">
-
-      <nav
-        className={`
-          mx-auto flex max-w-7xl items-center justify-between
-          rounded-3xl px-6 py-3
-          transition-all duration-300
-          ${
-            scrolled
-              ? "border bg-background/80 shadow-xl backdrop-blur-xl"
-              : "bg-transparent"
-          }
-        `}
-      >
-
+    <header className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur-md">
+      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5">
         <Logo />
 
+        <nav aria-label="Main" className="hidden items-center gap-8 md:flex">
+          {links.map((l) => (
+            <a key={l.href} href={l.href} className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
+              {l.label}
+            </a>
+          ))}
+        </nav>
 
-        {/* Desktop */}
-
-        <div className="hidden items-center gap-8 md:flex">
-
-          <a href="#features">
-            Features
-          </a>
-
-          <a href="#experience">
-            Experience
-          </a>
-
-          <a href="#security">
-            Security
-          </a>
-
+        <div className="hidden items-center gap-2 md:flex">
+          <Link to="/login"><Button variant="ghost">Sign in</Button></Link>
+          <Link to="/signup"><Button>Create account</Button></Link>
         </div>
 
-
-
-        <div className="hidden items-center gap-3 md:flex">
-
-          <Link to="/login">
-            <Button variant="ghost">
-              Login
-            </Button>
-          </Link>
-
-
-          <Link to="/signup">
-            <Button>
-              Get Started
-            </Button>
-          </Link>
-
-        </div>
-
-
-
-        {/* Mobile */}
-
-        <Button
-          size="icon"
-          variant="ghost"
-          className="md:hidden"
-          onClick={() => setOpen(!open)}
+        <button
+          type="button"
+          className="flex size-10 items-center justify-center rounded-lg hover:bg-muted md:hidden"
+          onClick={() => setOpen((v) => !v)}
+          aria-label={open ? "Close menu" : "Open menu"}
+          aria-expanded={open}
         >
+          {open ? <X size={20} /> : <Menu size={20} />}
+        </button>
+      </div>
 
-          {
-            open
-              ? <X />
-              : <Menu />
-          }
-
-        </Button>
-
-
-      </nav>
-
-
-
-      {
-        open && (
-
-          <div
-            className="
-              mt-3
-              rounded-3xl
-              border
-              bg-background/90
-              p-6
-              backdrop-blur-xl
-              md:hidden
-            "
-          >
-
-            <div className="flex flex-col gap-5">
-
-              <a href="#features">
-                Features
+      {open && (
+        <div className="animate-fade border-t border-border px-5 pb-5 pt-3 md:hidden">
+          <nav aria-label="Mobile" className="flex flex-col">
+            {links.map((l) => (
+              <a key={l.href} href={l.href} onClick={() => setOpen(false)} className="py-3 text-[15px] font-medium">
+                {l.label}
               </a>
-
-              <a href="#experience">
-                Experience
-              </a>
-
-
-              <Link to="/login">
-                Login
-              </Link>
-
-
-              <Link to="/signup">
-                <Button className="w-full">
-                  Get Started
-                </Button>
-              </Link>
-
-
-            </div>
-
+            ))}
+          </nav>
+          <div className="mt-3 grid grid-cols-2 gap-2">
+            <Link to="/login"><Button variant="outline" size="lg" className="w-full">Sign in</Button></Link>
+            <Link to="/signup"><Button size="lg" className="w-full">Create account</Button></Link>
           </div>
-
-        )
-      }
-
-
+        </div>
+      )}
     </header>
   );
 }

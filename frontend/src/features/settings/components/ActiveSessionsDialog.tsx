@@ -78,7 +78,7 @@ export default function ActiveSessionsDialog({
                 className="flex items-center gap-4 rounded-2xl border border-border bg-muted/30 p-4"
               >
 
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[var(--synapse-accent-500)]/10 text-[var(--synapse-accent-500)] dark:text-[var(--synapse-accent-500)]">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[var(--synapse-accent-500)]/10 text-brand dark:text-brand">
                   <Icon size={21} />
                 </div>
 

@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { nanoid } from "nanoid";
+
 
 import { useWhiteboard } from "./useWhiteboard";
 
@@ -49,7 +49,7 @@ export function useDrawing() {
     )
       return null;
 
-    const id = nanoid();
+    const id = crypto.randomUUID();
 
     const element: WhiteboardElement = {
 

@@ -74,7 +74,7 @@ export default function AIHistory({
             justify-center
             rounded-2xl
             bg-[var(--synapse-accent-500)]/10
-            text-[var(--synapse-accent-500)]
+            text-brand
           "
         >
           <History size={21} />
@@ -99,7 +99,7 @@ export default function AIHistory({
           gap-3
           rounded-2xl
           border
-          border-[var(--synapse-accent-500)]/20
+          border-[color:var(--synapse-accent-500)]/20
           bg-[var(--synapse-accent-500)]/5
           p-4
         "
@@ -109,7 +109,7 @@ export default function AIHistory({
           className="
             mt-0.5
             shrink-0
-            text-[var(--synapse-accent-500)]
+            text-brand
           "
         />
 

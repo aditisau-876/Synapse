@@ -18,7 +18,7 @@ bottom-60
 w-72
 rounded-3xl
 border
-border-white/10
+border-border
 bg-slate-900/95
 p-5
 shadow-xl

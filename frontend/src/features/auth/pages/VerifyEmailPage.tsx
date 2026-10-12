@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { getErrorMessage } from "@/lib/errors";
 
 import AuthLayout from "@/features/auth/components/AuthLayout";
 import AuthCard from "@/features/auth/components/AuthCard";
@@ -49,9 +50,7 @@ export default function VerifyEmailPage() {
       navigate("/app/dashboard", { replace: true });
     } catch (error) {
       toast.error(
-        error instanceof Error
-          ? error.message
-          : "Unable to verify email",
+        getErrorMessage(error, "Unable to verify email"),
       );
     } finally {
       setLoading(false);
@@ -77,7 +76,7 @@ export default function VerifyEmailPage() {
             type="button"
             disabled={loading}
             onClick={submit}
-            className="h-12 w-full"
+            size="lg" className="w-full"
           >
             {loading ? "Verifying..." : "Verify Email"}
           </Button>

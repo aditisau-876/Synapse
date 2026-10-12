@@ -26,7 +26,7 @@ max-w-lg
 space-y-8
 rounded-3xl
 border
-border-white/10
+border-border
 bg-background/80
 p-10
 shadow-2xl
@@ -36,7 +36,7 @@ backdrop-blur-xl
 
 <div>
 
-<h1 className="text-4xl font-black">
+<h1 className="text-4xl font-bold">
 
 Complete your profile
 

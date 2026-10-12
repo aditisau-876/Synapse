@@ -39,7 +39,7 @@ export default function MeetingFilters() {
             py-3
             backdrop-blur-xl
             transition
-            hover:border-[var(--synapse-accent-500)]
+            hover:border-[color:var(--synapse-accent-500)]
             hover:bg-[var(--synapse-accent-500)]/10
             "
           >

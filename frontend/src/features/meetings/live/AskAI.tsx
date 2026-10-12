@@ -6,10 +6,8 @@ export default function AskAI() {
       className="
       rounded-3xl
       border
-      border-[var(--synapse-accent-500)]/20
-      bg-gradient-to-br
-      from-[var(--synapse-accent-700)]/20
-      to-indigo-700/20
+      border-[color:var(--synapse-accent-500)]/20
+      bg-[var(--synapse-accent-500)]/10
       p-6
       "
     >
@@ -38,9 +36,7 @@ export default function AskAI() {
         mt-5
         w-full
         rounded-2xl
-        bg-gradient-to-r
-        from-[var(--synapse-accent-500)]
-        to-indigo-600
+        bg-[var(--synapse-accent-500)]
         py-3
         font-semibold
         text-white

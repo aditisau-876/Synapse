@@ -17,7 +17,7 @@ export default function CameraPreview({
       overflow-hidden
       rounded-3xl
       border
-      border-[var(--synapse-accent-500)]/30
+      border-[color:var(--synapse-accent-500)]/30
       bg-slate-900
       shadow-2xl
       "

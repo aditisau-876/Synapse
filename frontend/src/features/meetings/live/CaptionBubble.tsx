@@ -12,7 +12,7 @@ export default function CaptionBubble({
       className="
       rounded-2xl
       border
-      border-[var(--synapse-accent-500)]/20
+      border-[color:var(--synapse-accent-500)]/20
       bg-black/60
       px-5
       py-4
@@ -21,7 +21,7 @@ export default function CaptionBubble({
       backdrop-blur-2xl
       "
     >
-      <p className="text-sm font-semibold text-[var(--synapse-accent-300)]">
+      <p className="text-sm font-semibold text-[color:var(--synapse-accent-300)]">
         {speaker}
       </p>
 

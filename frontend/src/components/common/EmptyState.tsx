@@ -1,5 +1,5 @@
 import { Sparkles } from "lucide-react";
-import type {LucideIcon} from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface Props {
@@ -8,75 +8,31 @@ interface Props {
   description: string;
   buttonText?: string;
   onAction?: () => void;
+  className?: string;
 }
 
+/** Emptiness is an invitation to act: say what's missing and how to fix it. */
 export default function EmptyState({
   icon: Icon = Sparkles,
   title,
   description,
   buttonText,
   onAction,
+  className = "",
 }: Props) {
   return (
     <div
-      className="
-      flex
-      min-h-[340px]
-      flex-col
-      items-center
-      justify-center
-      rounded-3xl
-      border
-      border-white/10
-      bg-gradient-to-br
-      from-slate-900
-      via-[#181828]
-      to-slate-900
-      p-8
-      text-center
-      shadow-xl
-      "
+      className={`flex flex-col items-center justify-center px-6 py-12 text-center ${className}`}
     >
-      <div
-        className="
-        mb-6
-        flex
-        h-20
-        w-20
-        items-center
-        justify-center
-        rounded-full
-        bg-gradient-to-br
-        from-[var(--synapse-accent-700)] to-[var(--synapse-accent-500)]
-        shadow-lg
-        "
-      >
-        <Icon size={34} className="text-white" />
+      <div className="mb-4 flex size-12 items-center justify-center rounded-xl bg-[var(--synapse-accent-500)]/10 text-brand">
+        <Icon size={22} />
       </div>
-
-      <h2 className="text-2xl font-bold">
-        {title}
-      </h2>
-
-      <p
-        className="
-        mt-3
-        max-w-sm
-        text-muted-foreground
-        "
-      >
+      <h2 className="font-display text-lg font-semibold">{title}</h2>
+      <p className="mt-1.5 max-w-xs text-sm text-muted-foreground">
         {description}
       </p>
-
       {buttonText && (
-        <Button
-          onClick={onAction}
-          className="
-          mt-7
-          rounded-xl
-          px-6
-          "
-        >
+        <Button onClick={onAction} className="mt-5">
           {buttonText}
         </Button>
       )}

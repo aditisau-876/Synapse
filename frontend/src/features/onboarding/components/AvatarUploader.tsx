@@ -12,9 +12,7 @@ export default function AvatarUploader() {
         h-28
         w-28
         rounded-full
-        bg-gradient-to-br
-        from-indigo-500
-        to-cyan-500
+        bg-[var(--synapse-accent-500)]
         shadow-xl
         "
       >

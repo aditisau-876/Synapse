@@ -23,7 +23,7 @@ export default function Labels({
           px-3
           py-1
           text-xs
-          text-[var(--synapse-accent-700)]
+          text-[color:var(--synapse-accent-700)]
           "
         >
           {label}

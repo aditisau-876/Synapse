@@ -10,33 +10,7 @@ export default function AIHero({
   return (
     <div className="relative overflow-hidden rounded-3xl border border-border bg-card p-8">
       {/* Decorative glow */}
-      <div
-        className="
-          pointer-events-none
-          absolute
-          -right-20
-          -top-20
-          h-56
-          w-56
-          rounded-full
-          bg-primary/10
-          blur-3xl
-        "
-      />
 
-      <div
-        className="
-          pointer-events-none
-          absolute
-          -bottom-24
-          -left-16
-          h-48
-          w-48
-          rounded-full
-          bg-primary/5
-          blur-3xl
-        "
-      />
 
       <div className="relative">
         <div className="flex items-center gap-4">

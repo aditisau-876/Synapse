@@ -53,7 +53,7 @@ export default function AISuggestionCard({
         transition-all
         duration-200
 
-        hover:-translate-y-1
+        
         hover:border-primary/30
         hover:bg-primary/[0.03]
         hover:shadow-md

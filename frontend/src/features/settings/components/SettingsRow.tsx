@@ -47,7 +47,7 @@ export default function SettingsRow({
             ${
               destructive
                 ? "bg-red-500/10 text-red-500"
-                : "bg-[var(--synapse-accent-500)]/10 text-[var(--synapse-accent-500)]"
+                : "bg-[var(--synapse-accent-500)]/10 text-brand"
             }
           `}
         >

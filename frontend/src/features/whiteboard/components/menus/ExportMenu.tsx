@@ -16,7 +16,7 @@ export default function ExportMenu() {
       w-64
       rounded-3xl
       border
-      border-white/10
+      border-border
       bg-slate-900
       p-4
       shadow-2xl

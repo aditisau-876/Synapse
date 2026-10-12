@@ -1,144 +1,92 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { MessageSquare } from "lucide-react";
 
 import ConversationList from "./components/conversation/ConversationList";
 import ChatHeader from "./components/messages/ChatHeader";
 import MessageList from "./components/messages/MessageList";
 import MessageComposer from "./components/composer/MessageComposer";
 import ChatSidebar from "./components/sidebar/ChatSidebar";
+import EmptyState from "@/components/common/EmptyState";
+import { useChat, useChatSync } from "./hooks/useChat";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { cn } from "@/lib/utils";
 
+/**
+ * Three panes on desktop (list | thread | info). On phones the list and the
+ * thread take turns, like WhatsApp: opening a chat covers the whole screen.
+ */
 export default function ChatShell() {
+  useChatSync();
 
+  const { conversations, conversation, selectedConversationId, setConversation } = useChat();
+  const isDesktop = useMediaQuery("(min-width: 768px)");
+  const isWide = useMediaQuery("(min-width: 1280px)");
   const [showInfo, setShowInfo] = useState(false);
 
-  return (
+  // On desktop an empty thread pane is wasted space: open the first chat.
+  useEffect(() => {
+    if (isDesktop && !selectedConversationId && conversations.length > 0) {
+      setConversation(conversations[0].id);
+    }
+  }, [isDesktop, selectedConversationId, conversations, setConversation]);
 
-    <div className="flex h-full overflow-hidden">
-      <aside
-        className="
-        hidden
-        w-[360px]
-        shrink-0
-        border-r
-        border-border
-        bg-background
-        lg:block
-      "
+  const threadOpen = Boolean(conversation);
+
+  return (
+    <div className="flex h-full min-h-0 overflow-hidden">
+      <section
+        aria-label="Conversations"
+        className="flex w-full min-w-0 flex-col border-r border-border bg-card md:w-[340px] md:shrink-0"
       >
         <ConversationList />
-      </aside>
-      <main
-  className="
-  relative
-  flex
-  min-w-0
-  flex-1
-  flex-col
-  overflow-hidden
-  
-  "
->
-  {/* ---------- LIGHT MODE BACKGROUND ---------- */}
+      </section>
 
-  <div
-    className="
-    pointer-events-none
-    absolute
-    inset-0
+      <section
+        aria-label="Conversation"
+        className={cn(
+          "min-w-0 flex-1 flex-col bg-background",
+          // Phones: the open thread covers everything, including the tab bar.
+          threadOpen ? "fixed inset-0 z-40 flex md:static md:z-auto" : "hidden md:flex",
+        )}
+      >
+        {conversation ? (
+          <>
+            <ChatHeader onInfoClick={() => setShowInfo((v) => !v)} infoOpen={showInfo} />
+            <MessageList />
+            <MessageComposer />
+          </>
+        ) : (
+          <div className="flex flex-1 items-center justify-center">
+            <EmptyState
+              icon={MessageSquare}
+              title="Pick a conversation"
+              description="Choose a chat from the list, or start a new one with the + button."
+            />
+          </div>
+        )}
+      </section>
 
-    block
-    dark:hidden
-
-    bg-[radial-gradient(circle_at_center,rgba(139,92,246,0.08),transparent_65%)]
-    "
-  />
-
-  <div
-    className="
-    pointer-events-none
-    absolute
-    inset-0
-
-    block
-    dark:hidden
-
-    opacity-[0.05]
-
-    [background-image:radial-gradient(circle_at_1px_1px,#8b5cf6_1px,transparent_0)]
-    [background-size:34px_34px]
-    "
-  />
-
-  {/* ---------- DARK MODE GLOWS ---------- */}
-
-  <div
-    className="
-    pointer-events-none
-    absolute
-    left-1/2
-    top-1/2
-    hidden
-    h-[650px]
-    w-[650px]
-    -translate-x-1/2
-    -translate-y-1/2
-    rounded-full
-    blur-3xl
-
-    dark:block
-    dark:bg-[var(--synapse-accent-500)]/15
-    "
-  />
-
-  <div
-    className="
-    pointer-events-none
-    absolute
-    -right-40
-    bottom-0
-    hidden
-    h-[420px]
-    w-[420px]
-    rounded-full
-    blur-3xl
-
-    dark:block
-    dark:bg-cyan-400/10
-    "
-  />
-
-  <div className="relative z-10">
-    <ChatHeader
-      onInfoClick={() => setShowInfo((v) => !v)}
-    />
-  </div>
-
-  <div className="relative z-10 flex-1 overflow-hidden">
-    <MessageList />
-  </div>
-
-  <div className="relative z-10">
-    <MessageComposer />
-  </div>
-</main>
-      
-      {showInfo && (
-        <aside
-          className="
-          hidden
-          w-[340px]
-          shrink-0
-          border-l
-          border-border
-          bg-background
-          xl:block
-        "
-        >
-          <ChatSidebar />
-        </aside>
+      {showInfo && conversation && (
+        <>
+          {!isWide && (
+            <button
+              type="button"
+              aria-label="Close details"
+              onClick={() => setShowInfo(false)}
+              className="animate-fade fixed inset-0 z-[45] bg-black/40"
+            />
+          )}
+          <aside
+            aria-label="Conversation details"
+            className={cn(
+              "animate-slide-in w-[340px] shrink-0 overflow-y-auto border-l border-border bg-card",
+              isWide ? "" : "fixed inset-y-0 right-0 z-50 max-w-full shadow-2xl",
+            )}
+          >
+            <ChatSidebar onClose={() => setShowInfo(false)} />
+          </aside>
+        </>
       )}
-
     </div>
-
   );
-
 }

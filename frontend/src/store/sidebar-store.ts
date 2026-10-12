@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 interface SidebarState {
   collapsed: boolean;
@@ -6,16 +7,13 @@ interface SidebarState {
   setCollapsed: (value: boolean) => void;
 }
 
-export const useSidebarStore = create<SidebarState>((set) => ({
-  collapsed: false,
-
-  toggle: () =>
-    set((state) => ({
-      collapsed: !state.collapsed,
-    })),
-
-  setCollapsed: (value) =>
-    set({
-      collapsed: value,
+export const useSidebarStore = create<SidebarState>()(
+  persist(
+    (set) => ({
+      collapsed: false,
+      toggle: () => set((state) => ({ collapsed: !state.collapsed })),
+      setCollapsed: (value) => set({ collapsed: value }),
     }),
-}));
+    { name: "synapse-sidebar" },
+  ),
+);

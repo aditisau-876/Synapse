@@ -18,7 +18,7 @@ export default function StorageSettingsPage() {
 
       <section className="rounded-2xl border border-border bg-card p-6">
         <div className="flex items-center gap-4">
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[var(--synapse-accent-500)]/10 text-[var(--synapse-accent-500)]">
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[var(--synapse-accent-500)]/10 text-brand">
             <HardDrive size={22} />
           </div>
 
@@ -35,7 +35,7 @@ export default function StorageSettingsPage() {
 
         <div className="mt-6 h-2 overflow-hidden rounded-full bg-muted">
           <div
-            className="h-full rounded-full bg-gradient-to-r from-[var(--synapse-accent-500)] to-indigo-500"
+            className="h-full rounded-full bg-[var(--synapse-accent-500)]"
             style={{ width: "24%" }}
           />
         </div>
@@ -150,7 +150,7 @@ function StorageCard({
   return (
     <div className="rounded-2xl border border-border bg-card p-5">
       <div className="flex items-center gap-3">
-        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--synapse-accent-500)]/10 text-[var(--synapse-accent-500)]">
+        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--synapse-accent-500)]/10 text-brand">
           <Icon size={19} />
         </div>
 

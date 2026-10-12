@@ -39,7 +39,7 @@ export default function AIWorkspacePage() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-full bg-background">
       <div className="mx-auto w-full max-w-[1350px] space-y-7 px-5 py-6 lg:px-8 lg:py-8">
         <AIWorkspaceHeader />
 

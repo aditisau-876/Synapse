@@ -1,24 +1,9 @@
-interface Props {
-  label: string;
-}
-
-export default function DateDivider({
-  label,
-}: Props) {
+export default function DateDivider({ label }: { label: string }) {
   return (
-    <div className="my-6 flex justify-center">
-      <div
-        className="
-        rounded-full
-        bg-muted
-        px-4
-        py-1
-        text-xs
-        text-muted-foreground
-        "
-      >
+    <div className="my-4 flex justify-center">
+      <span className="rounded-full bg-card px-3 py-1 text-xs font-medium text-muted-foreground shadow-xs ring-1 ring-border">
         {label}
-      </div>
+      </span>
     </div>
   );
 }

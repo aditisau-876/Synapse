@@ -6,7 +6,7 @@ export default function MeetingHeader() {
 
       <div>
 
-        <h1 className="text-3xl font-black">
+        <h1 className="text-3xl font-bold">
           Meetings
         </h1>
 
@@ -37,9 +37,7 @@ export default function MeetingHeader() {
           items-center
           gap-2
           rounded-xl
-          bg-gradient-to-r
-          from-[var(--synapse-accent-900)]
-          to-indigo-500
+          bg-[var(--synapse-accent-500)]
           px-5
           py-3
           text-white

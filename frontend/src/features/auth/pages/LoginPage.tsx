@@ -5,12 +5,11 @@ import { toast } from "sonner";
 import AuthLayout from "@/features/auth/components/AuthLayout";
 import AuthCard from "@/features/auth/components/AuthCard";
 import PasswordInput from "@/features/auth/components/PasswordInput";
-import SocialLogin from "@/features/auth/components/SocialLogin";
-import LoginModeSwitch from "@/features/auth/components/LoginModeSwitch";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { login } from "@/features/auth/api/auth-api";
 import { useAuthStore } from "@/features/auth/store/auth-store";
+import { getErrorMessage } from "@/lib/errors";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -23,37 +22,33 @@ export default function LoginPage() {
 
   const submit = async (event: React.FormEvent) => {
     event.preventDefault();
-    if (!identifier || !password) return;
+    if (!identifier.trim() || !password) {
+      toast.error("Enter your email or phone, and your password.");
+      return;
+    }
 
     setLoading(true);
     try {
-      const result = await login(identifier, password);
+      const result = await login(identifier.trim(), password);
 
       if (result.requires_verification && result.challenge_id) {
         navigate("/verify-email", {
-          state: {
-            challengeId: result.challenge_id,
-            devCode: result.dev_code,
-          },
+          state: { challengeId: result.challenge_id, devCode: result.dev_code },
         });
         return;
       }
 
       if (!result.user || !result.access_token || !result.refresh_token) {
-        throw new Error("Unexpected authentication response");
+        throw new Error("Unexpected response from the server.");
       }
 
       setSession(result.user, result.access_token, result.refresh_token, result.session_id);
 
-      const destination =
-        (location.state as { from?: string } | null)?.from ||
-        "/app/dashboard";
-
+      // ProtectedRoute remembers where you were headed.
+      const destination = (location.state as { from?: string } | null)?.from || "/app/dashboard";
       navigate(destination, { replace: true });
     } catch (error) {
-      toast.error(
-        error instanceof Error ? error.message : "Unable to sign in",
-      );
+      toast.error(getErrorMessage(error, "Unable to sign in."));
     } finally {
       setLoading(false);
     }
@@ -61,57 +56,38 @@ export default function LoginPage() {
 
   return (
     <AuthLayout>
-      <AuthCard
-        title="Welcome back"
-        description="Sign in securely to continue using Synapse."
-      >
-        <form className="space-y-5" onSubmit={submit}>
-          <LoginModeSwitch />
-
-          <Input
-            value={identifier}
-            onChange={(event) => setIdentifier(event.target.value)}
-            placeholder="Email address or phone number"
-            className="h-12"
-            autoComplete="username"
-          />
-
-          <PasswordInput
-            onChange={setPassword}
-            placeholder="Password"
-          />
-
-          <div className="flex items-center justify-between text-sm">
-            <label className="flex items-center gap-2 text-muted-foreground">
-              <input type="checkbox" className="accent-[var(--synapse-accent-500)]" />
-              Remember me
-            </label>
-
-            <Link
-              to="/forgot-password"
-              className="text-[var(--synapse-accent-600)] hover:underline dark:text-[var(--synapse-accent-300)]"
-            >
-              Forgot password?
-            </Link>
+      <AuthCard title="Welcome back" description="Sign in to pick up where you left off.">
+        <form className="space-y-4" onSubmit={submit} noValidate>
+          <div className="space-y-1.5">
+            <label htmlFor="identifier" className="text-sm font-medium">Email or phone</label>
+            <Input
+              id="identifier"
+              value={identifier}
+              onChange={(event) => setIdentifier(event.target.value)}
+              className="h-11"
+              autoComplete="username"
+              autoFocus
+            />
           </div>
 
-          <Button
-            type="submit"
-            disabled={loading}
-            className="h-12 w-full"
-          >
-            {loading ? "Signing in..." : "Login"}
+          <div className="space-y-1.5">
+            <div className="flex items-center justify-between">
+              <label htmlFor="password" className="text-sm font-medium">Password</label>
+              <Link to="/forgot-password" className="text-sm font-medium text-brand hover:underline">
+                Forgot password?
+              </Link>
+            </div>
+            <PasswordInput id="password" value={password} onChange={setPassword} />
+          </div>
+
+          <Button type="submit" disabled={loading} size="lg" className="w-full">
+            {loading ? "Signing in…" : "Sign in"}
           </Button>
 
-          <SocialLogin />
-
-          <p className="text-center text-sm text-muted-foreground">
-            Don't have an account?
-            <Link
-              to="/signup"
-              className="ml-2 font-medium text-[var(--synapse-accent-600)] dark:text-[var(--synapse-accent-300)]"
-            >
-              Create account
+          <p className="pt-2 text-center text-sm text-muted-foreground">
+            New to Synapse?{" "}
+            <Link to="/signup" className="font-medium text-brand hover:underline">
+              Create an account
             </Link>
           </p>
         </form>

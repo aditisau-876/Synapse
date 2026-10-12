@@ -45,8 +45,8 @@ export default function SettingsHeader({
               justify-center
               rounded-2xl
               bg-[var(--synapse-accent-500)]/10
-              text-[var(--synapse-accent-500)]
-              dark:text-[var(--synapse-accent-500)]
+              text-brand
+              dark:text-brand
             "
           >
             <Settings size={21} />

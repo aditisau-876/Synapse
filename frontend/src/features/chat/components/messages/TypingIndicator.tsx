@@ -1,68 +1,19 @@
-import { motion } from "framer-motion";
-
-export default function TypingIndicator() {
+/** Render only when someone is really typing; pass their first name. */
+export default function TypingIndicator({ name }: { name: string }) {
   return (
-    <div className="flex justify-start">
-
-      <div
-        className="
-        flex
-        items-center
-        gap-3
-        rounded-3xl
-        rounded-bl-md
-        border
-        border-[var(--synapse-accent-500)]/20
-        bg-white/80
-        px-5
-        py-3
-        shadow-md
-        backdrop-blur-xl
-        dark:border-white/10
-        dark:bg-white/5
-        "
-      >
-
-        <div className="flex gap-1">
-
-          {[0,1,2].map((i)=>(
-
-            <motion.div
+    <div className="flex justify-start" role="status" aria-label={`${name} is typing`}>
+      <div className="flex items-center gap-2 rounded-[14px] rounded-bl-[4px] border border-border bg-card px-3.5 py-2.5">
+        <span className="flex gap-1">
+          {[0, 1, 2].map((i) => (
+            <span
               key={i}
-              animate={{
-                y:[0,-4,0],
-                opacity:[0.5,1,0.5]
-              }}
-              transition={{
-                repeat:Infinity,
-                duration:.8,
-                delay:i*.15
-              }}
-              className="
-              h-2
-              w-2
-              rounded-full
-              bg-[var(--synapse-accent-500)]
-              "
+              className="size-1.5 animate-bounce rounded-full bg-muted-foreground"
+              style={{ animationDelay: `${i * 120}ms` }}
             />
-
           ))}
-
-        </div>
-
-        <span
-          className="
-          text-sm
-          italic
-          text-[var(--synapse-accent-500)]
-          dark:text-[var(--synapse-accent-500)]
-          "
-        >
-          Alex is typing...
         </span>
-
+        <span className="text-xs text-muted-foreground">{name} is typing</span>
       </div>
-
     </div>
   );
 }

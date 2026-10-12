@@ -1,20 +1,21 @@
 import Navbar from "@/components/landing/Navbar";
 import Hero from "@/components/landing/Hero";
 import Features from "@/components/landing/Features";
-import Showcase from "@/components/landing/showcase/Showcase";
+import Security from "@/components/landing/Security";
 import CTASection from "@/components/landing/footer/CTASection";
 import Footer from "@/components/landing/footer/Footer";
-import AnimatedBackground from "@/components/layout/AnimatedBackground";
+
 export default function LandingPage() {
   return (
-    <main className="bg-background text-foreground">
-      <AnimatedBackground />
+    <div className="min-h-dvh bg-background text-foreground">
       <Navbar />
-      <Hero />
-      <Features />
-      <Showcase />
-      <CTASection />
+      <main>
+        <Hero />
+        <Features />
+        <Security />
+        <CTASection />
+      </main>
       <Footer />
-    </main>
+    </div>
   );
 }

@@ -115,8 +115,8 @@ export default function WhiteboardHeader() {
           bg-background/60
           p-2.5
           transition
-          hover:border-[var(--synapse-accent-500)]
-          hover:text-[var(--synapse-accent-500)]
+          hover:border-[color:var(--synapse-accent-500)]
+          hover:text-brand
           "
 
         >
@@ -140,8 +140,8 @@ export default function WhiteboardHeader() {
           bg-background/60
           p-2.5
           transition
-          hover:border-[var(--synapse-accent-500)]
-          hover:text-[var(--synapse-accent-500)]
+          hover:border-[color:var(--synapse-accent-500)]
+          hover:text-brand
           "
 
         >
@@ -163,8 +163,8 @@ export default function WhiteboardHeader() {
           bg-background/60
           p-2.5
           transition
-          hover:border-[var(--synapse-accent-500)]
-          hover:text-[var(--synapse-accent-500)]
+          hover:border-[color:var(--synapse-accent-500)]
+          hover:text-brand
           "
 
         >
@@ -188,8 +188,8 @@ export default function WhiteboardHeader() {
           bg-background/60
           p-2.5
           transition
-          hover:border-[var(--synapse-accent-500)]
-          hover:text-[var(--synapse-accent-500)]
+          hover:border-[color:var(--synapse-accent-500)]
+          hover:text-brand
           "
 
         >
@@ -209,9 +209,7 @@ export default function WhiteboardHeader() {
           items-center
           gap-2
           rounded-xl
-          bg-gradient-to-r
-          from-[var(--synapse-accent-500)]
-          to-indigo-600
+          bg-[var(--synapse-accent-500)]
           px-5
           py-2.5
           text-white

@@ -36,9 +36,7 @@ export default function TasksHeader({
           justify-center
           gap-2
           rounded-xl
-          bg-gradient-to-r
-          from-[var(--synapse-accent-500)]
-          to-[var(--synapse-accent-700)]
+          bg-[var(--synapse-accent-500)]
           px-5
           py-3
           text-sm
@@ -46,7 +44,7 @@ export default function TasksHeader({
           text-white
           shadow-lg
           transition
-          hover:scale-[1.02]
+          
           hover:shadow-xl
         "
       >

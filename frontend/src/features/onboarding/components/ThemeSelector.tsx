@@ -36,8 +36,8 @@ export default function ThemeSelector() {
 
             ${
               selected === theme.id
-                ? "border-[var(--synapse-accent-500)] bg-[var(--synapse-accent-500)]/10"
-                : "border-border hover:border-[var(--synapse-accent-500)]/50"
+                ? "border-[color:var(--synapse-accent-500)] bg-[var(--synapse-accent-500)]/10"
+                : "border-border hover:border-[color:var(--synapse-accent-500)]/50"
             }`}
           >
             <Icon className="mx-auto mb-2" size={24} />

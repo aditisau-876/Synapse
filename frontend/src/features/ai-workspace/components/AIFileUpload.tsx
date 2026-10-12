@@ -62,7 +62,7 @@ export default function AIFileUpload({
             py-3
             text-left
             transition
-            hover:border-[var(--synapse-accent-500)]
+            hover:border-[color:var(--synapse-accent-500)]
             hover:bg-[var(--synapse-accent-500)]/5
           "
         >
@@ -76,7 +76,7 @@ export default function AIFileUpload({
               justify-center
               rounded-xl
               bg-[var(--synapse-accent-500)]/10
-              text-[var(--synapse-accent-500)]
+              text-brand
             "
           >
             <FileUp size={19} />
@@ -116,7 +116,7 @@ export default function AIFileUpload({
               justify-center
               rounded-xl
               bg-[var(--synapse-accent-500)]/10
-              text-[var(--synapse-accent-500)]
+              text-brand
             "
           >
             <FileText size={19} />

@@ -19,16 +19,16 @@ export default function AddTaskButton({
       rounded-2xl
       border-2
       border-dashed
-      border-[var(--synapse-accent-500)]/30
+      border-[color:var(--synapse-accent-500)]/30
       bg-[var(--synapse-accent-500)]/5
       px-4
       py-4
-      text-[var(--synapse-accent-500)]
+      text-brand
       transition-all
       duration-300
-      hover:border-[var(--synapse-accent-500)]
+      hover:border-[color:var(--synapse-accent-500)]
       hover:bg-[var(--synapse-accent-500)]/10
-      hover:text-[var(--synapse-accent-300)]
+      hover:text-[color:var(--synapse-accent-300)]
       "
     >
       <Plus size={18} />

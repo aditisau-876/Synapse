@@ -1,85 +1,64 @@
-import {
-  PanelLeftClose,
-  PanelLeftOpen,
-} from "lucide-react";
+import { PanelLeftClose, PanelLeftOpen } from "lucide-react";
 
 import SidebarLogo from "./SidebarLogo";
 import SidebarItem from "./SidebarItem";
 import SidebarProfile from "./SidebarProfile";
 
-import { navigation } from "@/constants/navigation";
+import { primaryNav, workspaceNav, settingsNav } from "@/constants/navigation";
 import { useSidebarStore } from "@/store/sidebar-store";
+import { cn } from "@/lib/utils";
 
 export default function Sidebar() {
   const { collapsed, toggle } = useSidebarStore();
 
   return (
     <aside
-      className={`
-      flex
-      h-screen
-      flex-col
-      border-r
-      border-border
-      bg-background/90
-      backdrop-blur-xl
-      transition-all
-      duration-300
-
-      ${
-        collapsed
-          ? "w-[88px]"
-          : "w-[280px]"
-      }
-      `}
+      aria-label="Primary"
+      className={cn(
+        "hidden h-full shrink-0 flex-col border-r border-border bg-card transition-[width] duration-200 md:flex",
+        collapsed ? "w-[68px]" : "w-[232px]",
+      )}
     >
-      <SidebarLogo
-        collapsed={collapsed}
-      />
+      <SidebarLogo collapsed={collapsed} />
 
-      <div className="flex justify-end px-4 py-3">
+      <nav className="flex-1 space-y-6 overflow-y-auto px-3 pt-2">
+        <div className="space-y-1">
+          {primaryNav.map((item) => (
+            <SidebarItem key={item.href} {...item} collapsed={collapsed} />
+          ))}
+        </div>
 
-        <button
-          onClick={toggle}
-          className="
-          rounded-xl
-          p-2
-          transition
-          hover:bg-muted
-          "
-        >
-          {collapsed ? (
-            <PanelLeftOpen size={20} />
-          ) : (
-            <PanelLeftClose size={20} />
+        <div className="space-y-1">
+          {!collapsed && (
+            <p className="px-3 pb-1 text-xs font-medium text-muted-foreground">
+              Workspace
+            </p>
           )}
-        </button>
-
-      </div>
-
-      <nav
-        className="
-        flex-1
-        space-y-1.5
-        overflow-y-auto
-        px-4
-        "
-      >
-        {navigation.map((item) => (
-          <SidebarItem
-            key={item.label}
-            icon={item.icon}
-            label={item.label}
-            href={item.href}
-            collapsed={collapsed}
-          />
-        ))}
+          {collapsed && <div className="mx-3 border-t border-border" />}
+          {workspaceNav.map((item) => (
+            <SidebarItem key={item.href} {...item} collapsed={collapsed} />
+          ))}
+        </div>
       </nav>
 
-      <SidebarProfile
-        collapsed={collapsed}
-      />
+      <div className="space-y-1 px-3 pb-2">
+        <SidebarItem {...settingsNav} collapsed={collapsed} />
+        <button
+          type="button"
+          onClick={toggle}
+          aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+          title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+          className={cn(
+            "flex h-10 w-full items-center gap-3 rounded-lg px-3 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground",
+            collapsed && "justify-center px-0",
+          )}
+        >
+          {collapsed ? <PanelLeftOpen size={19} /> : <PanelLeftClose size={19} />}
+          {!collapsed && <span>Collapse</span>}
+        </button>
+      </div>
 
+      <SidebarProfile collapsed={collapsed} />
     </aside>
   );
 }

@@ -33,14 +33,11 @@ def get_key(user_id: str, current: User = Depends(get_current_user), db: Session
 
 @router.post("/encrypted-messages")
 def store_encrypted_message(payload: EncryptedMessageIn, current: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    # Conversations are created explicitly via POST /chat/conversations. Creating them
+    # implicitly here let anyone claim an ID and pull another user into it.
     conversation = db.get(Conversation, payload.conversation_id)
     if not conversation:
-        conversation = Conversation(id=payload.conversation_id, type="direct")
-        db.add(conversation)
-        db.add(ConversationMember(conversation_id=payload.conversation_id, user_id=current.id))
-        if payload.recipient_id:
-            db.add(ConversationMember(conversation_id=payload.conversation_id, user_id=payload.recipient_id))
-        db.commit()
+        raise HTTPException(404, "Conversation not found")
     members = {m.user_id for m in db.scalars(select(ConversationMember).where(ConversationMember.conversation_id == payload.conversation_id)).all()}
     if current.id not in members or (payload.recipient_id and payload.recipient_id not in members):
         raise HTTPException(403, "Not a member of this conversation")

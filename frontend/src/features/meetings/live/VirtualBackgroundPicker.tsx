@@ -66,8 +66,8 @@ export default function VirtualBackgroundPicker({
 
             ${
               selected === background.id
-                ? "border-[var(--synapse-accent-500)]"
-                : "border-transparent hover:border-[var(--synapse-accent-500)]"
+                ? "border-[color:var(--synapse-accent-500)]"
+                : "border-transparent hover:border-[color:var(--synapse-accent-500)]"
             }
             `}
           >

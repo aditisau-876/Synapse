@@ -1,173 +1,109 @@
-import {
-  Phone,
-  Video,
-  Search,
-  MoreVertical,
-  Info,
-} from "lucide-react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { ArrowLeft, Info, Video } from "lucide-react";
+import { toast } from "sonner";
 
-import { useChat } from "../../hooks/useChat";
 import ProfileAvatar from "@/components/layout/UserMenu/ProfileAvatar";
+import { useChat } from "../../hooks/useChat";
+import { useSendMessage } from "../../hooks/useSendMessage";
+import { instantMeeting } from "@/features/meetings/services";
+import { getErrorMessage } from "@/lib/errors";
+import { relativeTime } from "@/lib/format";
+import { cn } from "@/lib/utils";
 
 interface Props {
   onInfoClick: () => void;
+  infoOpen: boolean;
 }
 
-export default function ChatHeader({
-  onInfoClick,
-}: Props) {
-  const { conversation } = useChat();
+export default function ChatHeader({ onInfoClick, infoOpen }: Props) {
+  const navigate = useNavigate();
+  const { conversation, setConversation } = useChat();
+  const send = useSendMessage();
+  const [calling, setCalling] = useState(false);
 
-  if (!conversation) {
-    return null;
-  }
+  if (!conversation) return null;
 
-  const online =
-    conversation.participants[0]?.online ?? false;
+  const first = conversation.participants[0];
+  const isGroup = conversation.type === "group";
+  const status = isGroup
+    ? conversation.participants.map((p) => p.name.split(" ")[0]).join(", ")
+    : first?.online
+      ? "Online"
+      : first?.lastSeen
+        ? `Last seen ${/^\d{4}-/.test(first.lastSeen) ? relativeTime(first.lastSeen) : first.lastSeen}`
+        : "Offline";
+
+  /** Start a meeting and drop the link into the chat so the other person can join. */
+  const startCall = async () => {
+    setCalling(true);
+    try {
+      const meeting = await instantMeeting();
+      const link = `${window.location.origin}/app/meetings/${meeting.code}`;
+      void send(conversation.id, `Join my video call: ${link}`);
+      navigate(`/app/meetings/${meeting.code}`);
+    } catch (error) {
+      toast.error(getErrorMessage(error, "Couldn't start the call."));
+    } finally {
+      setCalling(false);
+    }
+  };
 
   return (
-    <header
-      className="
-        flex
-        items-center
-        justify-between
+    <header className="flex h-14 shrink-0 items-center gap-2 border-b border-border bg-card px-2 md:px-4">
+      <button
+        type="button"
+        onClick={() => setConversation(null)}
+        aria-label="Back to chats"
+        className="flex size-9 items-center justify-center rounded-lg text-muted-foreground hover:bg-muted md:hidden"
+      >
+        <ArrowLeft size={20} />
+      </button>
 
-        border-b
-        border-border/60
-
-        bg-background/80
-
-        px-6
-        py-4
-
-        backdrop-blur-xl
-        transition-all
-        duration-200
-        bg-gradient-to-r
-        from-[var(--synapse-accent-600)]
-to-[var(--synapse-accent-300)]
-        text-white
-        shadow-lg
-        shadow-[var(--synapse-accent-500)]/20
-        scale-[1.01]
-      "
-    >
-      <div className="flex items-center gap-4">
+      <button
+        type="button"
+        onClick={onInfoClick}
+        className="flex min-w-0 flex-1 items-center gap-3 rounded-lg py-1 text-left"
+      >
         <ProfileAvatar
           name={conversation.name}
-          online={online}
+          image={conversation.avatar}
+          group={isGroup}
+          online={isGroup ? undefined : first?.online}
+          size="sm"
         />
-
-        <div>
-          <h2 className="font-semibold">
+        <span className="min-w-0">
+          <span className="block truncate text-[15px] font-semibold leading-tight">
             {conversation.name}
-          </h2>
+          </span>
+          <span className="block truncate text-xs text-muted-foreground">{status}</span>
+        </span>
+      </button>
 
-          <p className="text-sm text-muted-foreground">
-            {online
-              ? "Online"
-              : "Last seen recently"}
-          </p>
-        </div>
-      </div>
-
-      <div className="flex items-center gap-1">
-        <button
-          className="
-            rounded-xl
-            p-2.5
-
-            text-muted-foreground
-
-            transition-all
-            duration-200
-
-            hover:bg-[var(--synapse-accent-500)]/10
-hover:text-[var(--synapse-accent-500)]
-dark:hover:bg-[var(--synapse-accent-500)]/10
-dark:hover:text-[var(--synapse-accent-500)]
-          "
-        >
-          <Phone size={19} />
-        </button>
-
-        <button
-          className="
-            rounded-xl
-            p-2.5
-
-            text-muted-foreground
-
-            transition-all
-            duration-200
-
-            hover:bg-[var(--synapse-accent-500)]/10
-hover:text-[var(--synapse-accent-500)]
-dark:hover:bg-[var(--synapse-accent-500)]/10
-dark:hover:text-[var(--synapse-accent-500)]
-          "
-        >
-          <Video size={19} />
-        </button>
-
-        <button
-          className="
-            rounded-xl
-            p-2.5
-
-            text-muted-foreground
-
-            transition-all
-            duration-200
-
-            hover:bg-[var(--synapse-accent-500)]/10
-hover:text-[var(--synapse-accent-500)]
-dark:hover:bg-[var(--synapse-accent-500)]/10
-dark:hover:text-[var(--synapse-accent-500)]
-          "
-        >
-          <Search size={19} />
-        </button>
-
-        <button
-          onClick={onInfoClick}
-          className="
-            rounded-xl
-            p-2.5
-
-            text-muted-foreground
-
-            transition-all
-            duration-200
-
-            hover:bg-[var(--synapse-accent-500)]/10
-hover:text-[var(--synapse-accent-500)]
-dark:hover:bg-[var(--synapse-accent-500)]/10
-dark:hover:text-[var(--synapse-accent-500)]
-          "
-        >
-          <Info size={19} />
-        </button>
-
-        <button
-          className="
-            rounded-xl
-            p-2.5
-
-            text-muted-foreground
-
-            transition-all
-            duration-200
-
-            hover:bg-[var(--synapse-accent-500)]/10
-hover:text-[var(--synapse-accent-500)]
-dark:hover:bg-[var(--synapse-accent-500)]/10
-dark:hover:text-[var(--synapse-accent-500)]
-          "
-        >
-          <MoreVertical size={19} />
-        </button>
-      </div>
+      <button
+        type="button"
+        onClick={() => void startCall()}
+        disabled={calling}
+        aria-label="Start a video call"
+        title="Start a video call"
+        className="flex h-9 items-center gap-2 rounded-lg px-3 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground disabled:opacity-50"
+      >
+        <Video size={18} />
+        <span className="hidden sm:inline">{calling ? "Starting…" : "Call"}</span>
+      </button>
+      <button
+        type="button"
+        onClick={onInfoClick}
+        aria-label="Conversation details"
+        aria-pressed={infoOpen}
+        title="Details"
+        className={cn(
+          "flex size-9 items-center justify-center rounded-lg transition-colors hover:bg-muted",
+          infoOpen ? "bg-accent text-brand" : "text-muted-foreground hover:text-foreground",
+        )}
+      >
+        <Info size={18} />
+      </button>
     </header>
   );
 }

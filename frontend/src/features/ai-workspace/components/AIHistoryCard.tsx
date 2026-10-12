@@ -33,7 +33,7 @@ export default function AIHistoryCard({
         p-5
         transition-all
         duration-200
-        hover:border-[var(--synapse-accent-500)]/40
+        hover:border-[color:var(--synapse-accent-500)]/40
         hover:shadow-lg
       "
     >
@@ -49,7 +49,7 @@ export default function AIHistoryCard({
             justify-center
             rounded-2xl
             bg-[var(--synapse-accent-500)]/10
-            text-[var(--synapse-accent-500)]
+            text-brand
           "
         >
           {icon}
@@ -63,7 +63,7 @@ export default function AIHistoryCard({
                 {item.title}
               </p>
 
-              <p className="mt-1 text-xs font-medium text-[var(--synapse-accent-500)]">
+              <p className="mt-1 text-xs font-medium text-brand">
                 {item.type}
               </p>
             </div>

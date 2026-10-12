@@ -10,7 +10,7 @@ export default function WhiteboardPage() {
     <div
       className="
       flex
-      h-screen
+      h-full
       flex-col
       overflow-hidden
       bg-background

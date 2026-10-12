@@ -36,9 +36,7 @@ export default function ProgressRing({
           className="
           h-full
           rounded-full
-          bg-gradient-to-r
-          from-[var(--synapse-accent-500)]
-          to-cyan-400
+          bg-[var(--synapse-accent-500)]
           transition-all
           duration-500
           "

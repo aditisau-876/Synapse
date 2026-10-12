@@ -15,12 +15,6 @@ export default function ToolButton({
 }: ToolButtonProps) {
   return (
     <motion.button
-      whileHover={{
-        scale: 1.08,
-      }}
-      whileTap={{
-        scale: 0.95,
-      }}
       title={tooltip}
       onClick={onClick}
       className={`
@@ -36,7 +30,7 @@ export default function ToolButton({
 
       ${
         active
-          ? "bg-[var(--synapse-accent-500)] text-white shadow-lg shadow-[var(--synapse-accent-500)]/30"
+          ? "bg-[var(--synapse-accent-500)] text-white shadow-lg shadow-[color:var(--synapse-accent-500)]/30"
           : "bg-card hover:bg-accent text-muted-foreground"
       }
       `}

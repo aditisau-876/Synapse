@@ -31,7 +31,7 @@ export default function TranscriptPanel() {
       <div className="space-y-5">
         {transcript.map((line, index) => (
           <div key={index}>
-            <p className="font-semibold text-[var(--synapse-accent-300)]">
+            <p className="font-semibold text-[color:var(--synapse-accent-300)]">
               {line.speaker}
             </p>
 

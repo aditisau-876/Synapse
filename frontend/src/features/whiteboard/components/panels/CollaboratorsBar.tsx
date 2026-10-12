@@ -10,23 +10,23 @@ const collaborators = [
 
   {
     name: "You",
-    color: "from-[var(--synapse-accent-500)] to-indigo-500",
+    color: "bg-[var(--synapse-accent-500)]",
     owner: true,
   },
 
   {
     name: "Alex",
-    color: "from-cyan-500 to-blue-500",
+    color: "bg-sky-600",
   },
 
   {
     name: "Sarah",
-    color: "from-pink-500 to-rose-500",
+    color: "bg-amber-600",
   },
 
   {
     name: "Emily",
-    color: "from-emerald-500 to-green-500",
+    color: "bg-rose-600",
   },
 
 ];
@@ -87,7 +87,7 @@ export default function CollaboratorsBar() {
                 rounded-full
                 border-2
                 border-background
-                bg-gradient-to-br
+                
                 ${user.color}
                 text-sm
                 font-bold

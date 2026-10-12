@@ -25,14 +25,12 @@ export default function ProfileSettingsPage() {
               items-center
               justify-center
               rounded-full
-              bg-gradient-to-br
-              from-[var(--synapse-accent-500)]
-              to-indigo-600
+              bg-[var(--synapse-accent-500)]
               text-4xl
               font-bold
               text-white
               shadow-lg
-              shadow-[var(--synapse-accent-500)]/20
+              shadow-[color:var(--synapse-accent-500)]/20
             "
           >
             A
@@ -140,8 +138,8 @@ export default function ProfileSettingsPage() {
                 justify-center
                 rounded-xl
                 bg-[var(--synapse-accent-500)]/10
-                text-[var(--synapse-accent-500)]
-                dark:text-[var(--synapse-accent-500)]
+                text-brand
+                dark:text-brand
               "
             >
               <User size={19} />
@@ -166,10 +164,10 @@ export default function ProfileSettingsPage() {
                 py-2
                 text-sm
                 font-medium
-                text-[var(--synapse-accent-500)]
+                text-brand
                 transition
                 hover:bg-[var(--synapse-accent-500)]/10
-                dark:text-[var(--synapse-accent-500)]
+                dark:text-brand
               "
             >
               Edit
@@ -200,8 +198,8 @@ export default function ProfileSettingsPage() {
                 justify-center
                 rounded-xl
                 bg-[var(--synapse-accent-500)]/10
-                text-[var(--synapse-accent-500)]
-                dark:text-[var(--synapse-accent-500)]
+                text-brand
+                dark:text-brand
               "
             >
               <AtSign size={19} />
@@ -226,10 +224,10 @@ export default function ProfileSettingsPage() {
                 py-2
                 text-sm
                 font-medium
-                text-[var(--synapse-accent-500)]
+                text-brand
                 transition
                 hover:bg-[var(--synapse-accent-500)]/10
-                dark:text-[var(--synapse-accent-500)]
+                dark:text-brand
               "
             >
               Edit
@@ -260,8 +258,8 @@ export default function ProfileSettingsPage() {
                 justify-center
                 rounded-xl
                 bg-[var(--synapse-accent-500)]/10
-                text-[var(--synapse-accent-500)]
-                dark:text-[var(--synapse-accent-500)]
+                text-brand
+                dark:text-brand
               "
             >
               <FileText size={19} />
@@ -286,10 +284,10 @@ export default function ProfileSettingsPage() {
                 py-2
                 text-sm
                 font-medium
-                text-[var(--synapse-accent-500)]
+                text-brand
                 transition
                 hover:bg-[var(--synapse-accent-500)]/10
-                dark:text-[var(--synapse-accent-500)]
+                dark:text-brand
               "
             >
               Edit
@@ -350,8 +348,8 @@ export default function ProfileSettingsPage() {
                 justify-center
                 rounded-xl
                 bg-[var(--synapse-accent-500)]/10
-                text-[var(--synapse-accent-500)]
-                dark:text-[var(--synapse-accent-500)]
+                text-brand
+                dark:text-brand
               "
             >
               <Mail size={19} />
@@ -409,8 +407,8 @@ export default function ProfileSettingsPage() {
                 justify-center
                 rounded-xl
                 bg-[var(--synapse-accent-500)]/10
-                text-[var(--synapse-accent-500)]
-                dark:text-[var(--synapse-accent-500)]
+                text-brand
+                dark:text-brand
               "
             >
               <Phone size={19} />

@@ -19,10 +19,7 @@ export default function AssigneeAvatar({
       items-center
       justify-center
       rounded-full
-      bg-gradient-to-br
-      from-[var(--synapse-accent-500)]
-      via-indigo-600
-      to-[var(--synapse-accent-secondary)]
+      bg-[var(--synapse-accent-500)]
       font-semibold
       text-white
       shadow-md

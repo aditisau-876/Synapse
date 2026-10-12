@@ -23,8 +23,8 @@ export default function InterestCard({
 
       ${
         selected
-          ? "border-[var(--synapse-accent-500)] bg-[var(--synapse-accent-500)]/10"
-          : "border-border hover:border-[var(--synapse-accent-500)]/40"
+          ? "border-[color:var(--synapse-accent-500)] bg-[var(--synapse-accent-500)]/10"
+          : "border-border hover:border-[color:var(--synapse-accent-500)]/40"
       }
       `}
     >

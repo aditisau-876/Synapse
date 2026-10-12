@@ -1,97 +1,49 @@
+import type { CSSProperties } from "react";
 import type { Message } from "../../types/chat";
 import ReadReceipt from "./ReadReceipt";
+import { linkify } from "./linkify";
+import { formatClock } from "@/lib/format";
+import { hueFor } from "@/lib/people";
+import { cn } from "@/lib/utils";
 
 interface Props {
   message: Message;
+  /** Show the sender's name above the text (first message of a run in a group). */
+  showSender: boolean;
+  /** Last message in a run gets the small "tail" corner. */
+  lastInRun: boolean;
 }
 
-export default function MessageBubble({
-  message,
-}: Props) {
+export default function MessageBubble({ message, showSender, lastInRun }: Props) {
+  const { own } = message;
+
   return (
-    <div
-      className={`
-        flex
-        ${message.own ? "justify-end" : "justify-start"}
-      `}
-    >
+    <div className={cn("flex", own ? "justify-end" : "justify-start")}>
       <div
-        className={`
-          relative
-          max-w-[70%]
-
-          rounded-3xl
-
-          px-5
-          py-3
-
-          shadow-md
-
-          transition-all
-          duration-200
-
-          ${
-            message.own
-              ? `
-                rounded-br-lg
-
-                bg-gradient-to-r
-                from-[var(--synapse-accent-600)]
-to-[var(--synapse-accent-300)]
-
-                text-white
-
-                shadow-[var(--synapse-accent-500)]/40
-              `
-              : `
-                rounded-bl-lg
-
-                border
-                border-[var(--synapse-accent-500)]/60
-
-                bg-card
-                text-card-foreground
-
-                shadow-sm
-              `
-          }
-        `}
+        className={cn(
+          "max-w-[85%] rounded-[14px] px-3 py-1.5 sm:max-w-[70%]",
+          own
+            ? "bg-[var(--synapse-accent-500)] text-white"
+            : "border border-border bg-card text-card-foreground",
+          lastInRun && (own ? "rounded-br-[4px]" : "rounded-bl-[4px]"),
+        )}
       >
-        <p
-          className="
-            whitespace-pre-wrap
-            break-words
-
-            text-[15px]
-            leading-7
-          "
-        >
-          {message.text}
-        </p>
-
-        <div
-          className="
-            mt-2
-
-            flex
-            items-center
-            justify-end
-            gap-2
-
-            text-[11px]
-            opacity-70
-          "
-        >
-          <span>
-            {message.createdAt}
+        {showSender && (
+          <p
+            style={{ "--h": hueFor(message.sender.name) } as CSSProperties}
+            className="mb-0.5 text-[13px] font-semibold text-[hsl(var(--h)_55%_34%)] dark:text-[hsl(var(--h)_65%_74%)]"
+          >
+            {message.sender.name}
+          </p>
+        )}
+        <p className="whitespace-pre-wrap break-words text-[15px] leading-6">
+          {linkify(message.text)}
+          {/* Time floats to the bottom-right of the last line, WhatsApp-style. */}
+          <span className="float-right ml-3 mt-2 inline-flex select-none items-center gap-1 text-[11px] leading-none opacity-70">
+            {formatClock(message.createdAt)}
+            {own && <ReadReceipt status={message.status} />}
           </span>
-
-          {message.own && (
-            <ReadReceipt
-              status={message.status}
-            />
-          )}
-        </div>
+        </p>
       </div>
     </div>
   );

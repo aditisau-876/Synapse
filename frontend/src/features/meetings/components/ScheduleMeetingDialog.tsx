@@ -44,9 +44,7 @@ export default function ScheduleMeetingDialog() {
           className="
           w-full
           rounded-xl
-          bg-gradient-to-r
-          from-[var(--synapse-accent-500)]
-          to-indigo-600
+          bg-[var(--synapse-accent-500)]
           py-3
           text-white
           "

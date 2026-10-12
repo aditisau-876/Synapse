@@ -1,40 +1,9 @@
-import {
-  Check,
-  CheckCheck,
-} from "lucide-react";
+import { Check, CheckCheck } from "lucide-react";
+import type { MessageStatus } from "../../types/chat";
 
-interface Props {
-  status:
-    | "sending"
-    | "sent"
-    | "delivered"
-    | "read";
-}
-
-export default function ReadReceipt({
-  status,
-}: Props) {
-  if (status === "sending") {
-    return null;
-  }
-
-  if (status === "sent") {
-    return (
-      <Check
-        size={15}
-        className="opacity-70"
-      />
-    );
-  }
-
-  return (
-    <CheckCheck
-      size={15}
-      className={
-        status === "read"
-          ? "text-sky-500"
-          : "opacity-70"
-      }
-    />
-  );
+export default function ReadReceipt({ status }: { status: MessageStatus }) {
+  if (status === "sending") return null;
+  const label = { sent: "Sent", delivered: "Delivered", read: "Read", failed: "Not sent" }[status];
+  const Icon = status === "sent" || status === "failed" ? Check : CheckCheck;
+  return <Icon size={14} aria-label={label} className={status === "read" ? "" : "opacity-80"} />;
 }

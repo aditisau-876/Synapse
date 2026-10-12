@@ -1,58 +1,26 @@
-import { Users } from "lucide-react";
 import ProfileAvatar from "@/components/layout/UserMenu/ProfileAvatar";
 import { useChat } from "../../hooks/useChat";
-  import EmptyState from "@/components/common/EmptyState";
+
 export default function Members() {
   const { conversation } = useChat();
-  if (!conversation) {
-  return (
-    <EmptyState
-      icon={Users}
-      title="No Members"
-      description="Open a conversation to view its members."
-    />
-  );
-}
+  if (!conversation || conversation.type !== "group") return null;
 
   return (
-    <div className="border-b border-border p-6">
-
-      <h3 className="mb-4 font-semibold">
-        Members
+    <div className="border-b border-border px-5 py-4">
+      <h3 className="mb-3 text-sm font-semibold">
+        {conversation.participants.length + 1} members
       </h3>
-
-      <div className="space-y-3">
-
-        {conversation.participants.map((member) => (
-          <div
-            key={member.id}
-            className="flex items-center gap-3"
-          >
-            <ProfileAvatar
-              name={member.name}
-              image={member.avatar}
-              online={member.online}
-            />
-
-            <div>
-
-              <p className="font-medium">
-                {member.name}
-              </p>
-
-              <p className="text-xs text-muted-foreground">
-                {member.online
-                  ? "Online"
-                  : member.lastSeen}
-              </p>
-
+      <ul className="space-y-1">
+        {conversation.participants.map((m) => (
+          <li key={m.id} className="flex items-center gap-3 rounded-lg py-1.5">
+            <ProfileAvatar name={m.name} image={m.avatar} online={m.online} size="sm" />
+            <div className="min-w-0">
+              <p className="truncate text-sm font-medium">{m.name}</p>
+              <p className="text-xs text-muted-foreground">{m.online ? "Online" : (m.lastSeen ?? "Offline")}</p>
             </div>
-
-          </div>
+          </li>
         ))}
-
-      </div>
-
+      </ul>
     </div>
   );
 }

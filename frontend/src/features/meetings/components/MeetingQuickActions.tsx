@@ -19,9 +19,7 @@ export default function MeetingQuickActions() {
       <button
         className="
         rounded-3xl
-        bg-gradient-to-r
-        from-[var(--synapse-accent-500)]
-        to-indigo-500
+        bg-[var(--synapse-accent-500)]
         p-8
         text-left
         text-white
@@ -53,7 +51,7 @@ export default function MeetingQuickActions() {
         "
       >
 
-        <CalendarPlus className="mb-5 text-[var(--synapse-accent-500)]"/>
+        <CalendarPlus className="mb-5 text-brand"/>
 
         <h3 className="text-xl font-bold">
           Schedule

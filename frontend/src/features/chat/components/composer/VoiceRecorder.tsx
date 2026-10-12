@@ -1,30 +1,16 @@
 import { Mic } from "lucide-react";
+import { toast } from "sonner";
 
-interface Props {
-  onClick: () => void;
-}
-
-export default function VoiceRecorder({
-  onClick,
-}: Props) {
+export default function VoiceRecorder() {
   return (
     <button
-      onClick={onClick}
-      className="
-      flex
-      h-11
-      w-11
-      items-center
-      justify-center
-      rounded-xl
-      text-muted-foreground
-      transition-all
-      duration-200
-      hover:bg-muted
-      hover:text-red-500
-      "
+      type="button"
+      onClick={() => toast.info("Voice messages are coming soon.")}
+      aria-label="Record a voice message (coming soon)"
+      title="Voice message (coming soon)"
+      className="flex size-10 shrink-0 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
     >
-      <Mic size={20} />
+      <Mic size={19} />
     </button>
   );
 }

@@ -59,7 +59,7 @@ export default function ChangePasswordDialog({
 
         <div className="mb-6 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--synapse-accent-500)]/10 text-[var(--synapse-accent-500)] dark:text-[var(--synapse-accent-500)]">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--synapse-accent-500)]/10 text-brand dark:text-brand">
               <KeyRound size={20} />
             </div>
 
@@ -182,7 +182,7 @@ function PasswordField({
           onChange={(event) =>
             onChange(event.target.value)
           }
-          className="w-full rounded-xl border border-border bg-background px-4 py-3 pr-12 text-sm outline-none transition focus:border-[var(--synapse-accent-500)] focus:ring-2 focus:ring-[var(--synapse-accent-500)]/20"
+          className="w-full rounded-xl border border-border bg-background px-4 py-3 pr-12 text-sm outline-none transition focus:border-[color:var(--synapse-accent-500)] focus:ring-2 focus:ring-[color:var(--synapse-accent-500)]/20"
           placeholder="••••••••"
         />
 
